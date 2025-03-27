@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <title>A Estrelinha Amarela</title>
+    <link rel="stylesheet" href="CSS/style.css">
+</head>
+
+<body>
+    <header>
+        <div class="menu-buttons">
+            <button type="button" id="btn-menu" class="btn-menu" onclick="openNav()">Menu</button>
+            <!-- nova alteração -->
+        </div>
+        <div id="myTopnav" class="topnav">
+            <span class="closebtn" onclick="closeNav()">&times;</span>
+            <a href="HTML/PT/contactos.html">Contactos</a>
+            <a href="HTML/PT/atividades.html">Atividades</a>
+            <a href="HTML/PT/inscricao.html">Inscrição</a>
+            <a href="HTML/PT/missao.html">Missão</a>
+        </div>
+        <div id="lang">
+            <button type="button" id="btn-pt" class="btn-pt" onclick="lang()">PT</button> <!-- nova alteração -->
+            <button type="button" id="btn-eng" class="btn-eng" onclick="lang()">EN</button> <!-- nova alteração -->
+        </div>
+        <img src="img/Logo_Estrelinha-Amarela-1024x1017.png" alt="Logo Estrelinha Amarela" height="200px" width="200px">
+        <h2 id="main-title">Video de 1min</h2> <!-- nova alteração -->
+    </header>
+    <div id="video_escola" class="video_escola"> <!-- nova alteração -->
+        <iframe src="https://www.youtube.com/embed/your-video-id" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <!-- Adiciona a mascote e a mensagem -->
+    <div id="mascote-container">
+        <img id="mascote" src="img/mascote.png" alt="Mascote" class="mascote" style="display: none;">
+        <div id="mascote-message" class="mascote-message" style="display: none;">Olá! Vou te mostrar o site.</div>
+    </div>
+    <script src="js/scripts.js"></script>
+</body>
+
+</html>
