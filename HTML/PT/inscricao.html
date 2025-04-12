@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscrição</title>
+    <link rel="stylesheet" href="../../CSS/style.css">
+</head>
+
+<header>
+    <!-- Botão para abrir o menu -->
+    <div class="menu-buttons">
+        <button type="button" id="btn-menu" class="btn-menu" onclick="openNav()">Menu</button>
+    </div>
+
+    <div id="myTopnav" class="topnav">
+        <span class="closebtn" onclick="closeNav()">&times;</span>
+        <a href="../../indexPT.html">Home</a>
+        <a href="missao.html">Missão</a>
+        <a href="atividades.html">Atividades</a>
+        <a href="docentes.html">Docentes</a>
+        <a href="contactos.html">Contactos</a>
+    </div>
+
+    <br>
+
+    <div id="lang">
+        <button type="button" id="btn-pt" class="btn-pt" onclick="lang()">PT</button>
+        <button type="button" id="btn-eng" class="btn-eng" onclick="lang()">EN</button>
+    </div>
+    <br>
+</header>
+
+<body>
+    <!-- Título principal -->
+    <h2 id="main-title">Inscrição</h2>
+
+    <!-- Formulário de inscrição -->
+    <div id="inscricao-form">
+        <h3>Preencha o formulário para se inscrever:</h3>
+        <form action="#" method="post">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" placeholder="Insira o seu nome" required>
+            <br><br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Insira o seu email" required>
+            <br><br>
+            <label for="telefone">Telefone:</label>
+            <input type="tel" id="telefone" name="telefone" placeholder="Insira o seu telefone" required>
+            <br><br>
+            <label for="mensagem">Mensagem:</label>
+            <textarea id="mensagem" name="mensagem" placeholder="Escreva a sua mensagem" required></textarea>
+            <br><br>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+
+    <!-- Mascote e mensagem -->
+    <div id="mascote-container">
+        <img id="mascote" alt="Mascote" class="mascote">
+        <div id="mascote-message" class="mascote-message">Olá! Vou te mostrar o site.</div>
+    </div>
+
+    <script src="../../js/scripts.js"></script>
+</body>
+
+</html>
