@@ -1,5 +1,7 @@
 # Internship
-Develop a Website and a mobile App for an kindergarten
+Develop a Website for the school where parents can register their childs, check the menu in the cafeteria, see what activities will happen in the area and get to know the teachers of the school.
+
+For the administration of the school, develope a Web App so the teachers register and login their working hours in the kindergarten and the administrator can confirm new users and manage the working hours of the staff.
 
 To clone a repository:
 ```
