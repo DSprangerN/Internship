@@ -1,9 +1,16 @@
-/* Estilo geral do corpo da página */
+@media (max-width: 768px) {
+    #bebe-gourmet {
+        width: 100%;
+        /* Ocupa toda a largura da tela em dispositivos menores */
+        margin: 0 auto;
+        /* Centraliza o elemento */
+    }
+}
+
 body {
     font-family: "Lato", sans-serif;
-    margin: 0;
-    padding: 0;
-    text-align: left;
+    margin: auto;
+    text-align: center;
     background-color: #f0f8ff;
     overflow-x: hidden;
 }
@@ -356,11 +363,15 @@ textarea {
     /* Espaçamento interno */
 }
 
-@media (max-width: 768px) {
-    #bebe-gourmet {
-        width: 100%;
-        /* Ocupa toda a largura da tela em dispositivos menores */
-        margin: 0 auto;
-        /* Centraliza o elemento */
-    }
+form {
+    max-width: 400px;
+    ;
+    margin: 20px auto 20px auto;
+    padding: 50px;
+    background-color: #ffffff;
+    border: 5px solid #000000;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+    text-align: center;
 }

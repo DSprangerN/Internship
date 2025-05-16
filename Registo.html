@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registar</title>
+    <link rel="stylesheet" href="CSS/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        @media (max-width: 800px) {
+            #registo {
+                width: 90%;
+                margin: auto;
+            }
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-login {
+            background-color: #77dd77;
+            color: white;
+        }
+
+        .btn-login:hover {
+            background-color: #66cc66;
+        }
+
+        .btn-main {
+            background-color: #77dd77;
+            color: white;
+            margin-left: 5px;
+        }
+
+        .btn-main:hover {
+            background-color: #66cc66;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            text-align: left;
+            padding: 10px;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+            padding: 0;
+        }
+
+        form {
+            margin: auto;
+        }
+
+        #container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            width: 100%;
+            margin: 100%;
+        }
+
+        #registo {
+            margin: 10px;
+            background-color: #f8f9fa;
+            border: solid 5px white;
+            width: 500px;
+            border-radius: 20px;
+            height: 400px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<header>
+    <a href="Login.html" class="btn btn-login">Login</a>
+    <a href="indexPT.html" class="btn btn-main">Estrelinha Amarela</a>
+</header>
+
+<body>
+    <div class="container">
+        <div id="registo">
+            <h1>Registo</h1>
+            <br>
+            <br>
+            <form action="php/registo.php" method="post">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="Nome" required>
+                <br>
+                <label for="sobrenome">Sobrenome:</label>
+                <input type="text" id="sobrenome" name="Sobrenome" required>
+                <br>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="Username" required>
+                <br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="Password" required>
+                <br>
+                <label for="repass">Confirme a Password:</label>
+                <input type="password" id="repass" name="repass" required>
+                <br>
+                <button type="submit">Registar</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="CSS/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>Estrelinha Amarela</h1>
+        <br>
+        <h2>Efectue o Login</h2>
+    </header>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <div id="container">
+        <div id="login">
+            <form action="php/login.php" method="post">
+                <label for="username" required>Username:</label>
+                <input type="text" id="username" name="username" placeholder="Insira o seu username" required>
+                <br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Insira a sua password" required>
+                <br>
+                <button id="btnlogin" type="submit">Login</button>
+                <br>
+            </form>
+        </div>
+        <div id="registar">
+            <h3>Não tem conta?</h3>
+            <p><a href="Registo.html">Registe-se</a></p>
+            <p><a href="indexPT.html">Voltar</a></p>
+        </div>
+
+</body>
+
+</html>
