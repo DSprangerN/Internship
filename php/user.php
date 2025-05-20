@@ -15,24 +15,19 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 
 
-// Verifica se o utilizador está na rede Wi-Fi permitida
+// Verifica se o utilizador está na rede Wi-Fi permitida (IP Local)
 // Verificação em php por ser mais seguro no servidor que no cliente
-$serverIP = "81.84.142.39"; // Subsituir pelo IP da escola
-$userIP = @file_get_contents("https://api.ipify.org"); // Obtem o IP do utilizador
+$allowed_public_ip = '95.92.13.189'; // Subsituir pelo IP da escola
+$userIP = $_SERVER['REMOTE_ADDR'];
+echo "<script>alert('O seu IP é: $userIP');</script>";
 
-if ($userIP === FALSE) {
+if (
+    $userIP !== $allowed_public_ip &&
+    $userIP !== '127.0.0.1' &&
+    $userIP !== '::1'
+) {
     echo "<script>
         alert('Erro ao verificar o Wifi. Tente novamente mais tarde.');
-        window.location.href = '../Login.html';
-        </script>";
-    exit();
-}
-
-
-// Verifica se o IP do utilizador é igual ao IP permitido
-if ($userIP !== $serverIP) {
-    echo "<script>
-        alert('Acesso recusado. Você precisa estar ligado à rede Wi-Fi permitida.');
         window.location.href = '../Login.html';
         </script>";
     exit();
@@ -286,5 +281,9 @@ if (isset($_GET['mes'])) {
         });
     </script>
 </body>
+
+<footer>
+    <a href="../HTML/privacidade.html">Política de Privacidade</a>
+</footer>
 
 </html>
