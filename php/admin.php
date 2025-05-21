@@ -630,6 +630,12 @@ if (isset($_POST['eliminar_registo']) && isset($_POST['id_colaborador'])) {
 
     <br>
     <br>
+    <hr>
+    <br>
+    <br>
+    <h1>Gestão de Ementas</h1>
+    <br>
+    <br>
 
     <script>
         $(function() {
