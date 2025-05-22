@@ -21,7 +21,7 @@ function confirmCustom(message, yesText, noText) {
         confirmBox.className = "confirm-box";
         confirmBox.innerHTML = `
             <div class="confirm-message">
-                <img src="/Estagio/img/mascote.png" alt="Mascote" class="mascote-confirm">
+                <img src="../../img/mascote.png" alt="Mascote" class="mascote-confirm">
                 <p>${message}</p>
             </div>
             <button class="confirm-yes">${yesText}</button>
@@ -119,6 +119,19 @@ function Help() {
     });
 }
 
+// Função para carregar as reviews do servidor
+async function loadReviews() {
+    const reviewsList = document.getElementById("reviews");
+    if(!reviewsList) {
+        console.error("Elemento 'reviews' não encontrado no DOM");
+        return;
+    }
+
+    try {
+        const response = await fetch("../php/get_reviews.php");
+    }
+}
+
 // Exibe a caixa de texto ao carregar a página
 window.onload = function () {
     Help(); // Chama a função de ajuda interativa
@@ -137,7 +150,7 @@ const reviewsList = document.getElementById("reviews");
 // Função para carregar as reviews do servidor
 async function loadReviews() {
     try {
-        const response = await fetch("../../get_reviews.php"); // Faz a requisição ao servidor
+        const response = await fetch("../../php/get_reviews.php"); // Faz a requisição ao servidor
         const reviews = await response.json(); // Converte a resposta para JSON
         reviewsList.innerHTML = ""; // Limpa a lista antes de renderizar
         reviews.forEach(review => {
@@ -165,7 +178,7 @@ async function saveReview() {
     formData.append("message", message);
 
     try {
-        await fetch("../../save_review.php", {
+        await fetch("../php/save_review.php", {
             method: "POST",
             body: formData
         });
@@ -182,4 +195,6 @@ async function saveReview() {
 }
 
 // Adiciona o evento de clique ao botão de enviar
-submitButton.addEventListener("click", saveReview);
+if (submitButton) {
+    submitButton.addEventListener("click", saveReview);
+}

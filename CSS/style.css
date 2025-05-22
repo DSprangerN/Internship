@@ -127,11 +127,15 @@ h2 {
 /* Estilo para a mascote */
 .mascote {
     position: absolute;
-    width: 100px;
+    width: 150px;
     height: 100px;
     z-index: 1001;
     transition: all 0.3s ease;
-    display: none;
+    display: block;
+}
+
+#mascote-container {
+    position: relative;
 }
 
 /* Estilo para a mensagem da mascote */
