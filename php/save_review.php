@@ -2,13 +2,22 @@
 // ligar a base de dados
 
 $host = 'localhost';
-$dbname = 'estrelinha_amarela';
+$dbname = 'estrelinha_login';
 $username = 'roots';
-$password = 'Prisonbreak10';
+$password = '';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Verifica se a review foi enviada por POST
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $name = $_POST['name'] ?? '';
+        $nessage = $_POST['message'] ?? '';
+
+        //Validar os dados
+        if (empty($name) || empty)
+    }
 
     // Recebe os dados enviados via POST
     $name = $_POST['name'];
