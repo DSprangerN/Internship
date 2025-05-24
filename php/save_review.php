@@ -3,7 +3,7 @@
 
 $host = 'localhost';
 $dbname = 'estrelinha_login';
-$username = 'roots';
+$username = 'root';
 $password = 'Prisonbreak10';
 
 try {
@@ -12,20 +12,21 @@ try {
 
     // Verifica se a review foi enviada por POST
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $name = $_POST['name'] ?? '';
-        $nessage = $_POST['message'] ?? '';
+        $nome = $_POST['nome'] ?? '';
+        $review = $_POST['review'] ?? '';
 
         //Validar os dados
-        if (empty($name) || empty($message)) {
+        if (empty($nome) || empty($review)) {
             http_response_code(400);
             echo json_encode(['error' => 'Nome e mensagem são obrigatórios.']);
             exit;
         }
 
         // Inserir a review na base de dados
-        $stmt = $pdo->prepare("INSERT INTO reviews (name, message) VALUES (:name, :message)");
-        $stmt->bindParam(':name', $name);
-        $stmt->bindParam(':message', $message);
+        $stmt = $pdo->prepare("INSERT INTO reviews (nome, review) VALUES (:nome, :review)");
+        $stmt->bindParam(':nome', $nome);
+        $stmt->bindParam(':review', $review);
+        $stmt->execute();
 
         echo json_encode(['success' => 'Review inserida com sucesso.']);
     } else {

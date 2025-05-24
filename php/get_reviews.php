@@ -1,4 +1,9 @@
 <?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // Ligar à base de dados
 
 $host = 'localhost';
@@ -11,7 +16,7 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Retorna todas as reviews
-    $stmt = $pdo->query("SELECT name, message, created_at FROM reviews ORDER BY created_at DESC");
+    $stmt = $pdo->query("SELECT nome, review, created_at FROM reviews ORDER BY created_at DESC");
     $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     //Retorna as reviews como JSON
@@ -21,8 +26,3 @@ try {
     header('Content-Type: application/json', true, 500);
     echo json_encode(['error' => $e->getMessage()]);
 }
-?>
-<?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
