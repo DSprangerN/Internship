@@ -119,39 +119,27 @@ function Help() {
     });
 }
 
-// Função para carregar as reviews do servidor
-async function loadReviews() {
-    const reviewsList = document.getElementById("reviews");
-    if(!reviewsList) {
-        console.error("Elemento 'reviews' não encontrado no DOM");
-        return;
-    }
-
-    try {
-        const response = await fetch("../php/get_reviews.php");
-    }
-}
-
 // Exibe a caixa de texto ao carregar a página
 window.onload = function () {
     Help(); // Chama a função de ajuda interativa
     loadReviews(); // Carrega as reviews
 };
 
-//Reviews submission and display
-
-// Função para adicionar uma nova review à lista
-// Seleciona os elementos do DOM
-const nameInput = document.getElementById("name");
-const msgInput = document.getElementById("msg");
-const submitButton = document.getElementById("submit-review");
-const reviewsList = document.getElementById("reviews");
-
 // Função para carregar as reviews do servidor
 async function loadReviews() {
+    const reviewsList = document.getElementById("reviews");
+    if (!reviewsList) {
+        console.error("Elemento 'reviews' não encontrado no DOM.");
+        return;
+    }
+
     try {
-        const response = await fetch("../../php/get_reviews.php"); // Faz a requisição ao servidor
-        const reviews = await response.json(); // Converte a resposta para JSON
+        const response = await fetch("../php/get_reviews.php");
+        if (!response.ok) {
+            throw new Error(`Erro na requisição: ${response.statusText}`);
+        }
+        const reviews = await response.json();
+
         reviewsList.innerHTML = ""; // Limpa a lista antes de renderizar
         reviews.forEach(review => {
             const li = document.createElement("li");
@@ -163,8 +151,27 @@ async function loadReviews() {
     }
 }
 
+// Exibe a caixa de texto ao carregar a página
+window.onload = function () {
+    Help(); // Chama a função de ajuda interativa
+
+    // Carrega as reviews apenas no contactos.html
+    if (window.location.pathname.endsWith("contactos.html")) {
+        loadReviews(); // Carrega as reviews
+    }
+};
+
 // Função para guardar uma nova review no servidor
 async function saveReview() {
+    const nameInput = document.getElementById("name");
+    const msgInput = document.getElementById("msg");
+    const reviewsList = document.getElementById("reviews");
+
+    if (!nameInput || !msgInput || !reviewsList) {
+        console.error("Elementos necessários para salvar a review não encontrados no DOM.");
+        return;
+    }
+
     const name = nameInput.value.trim();
     const message = msgInput.value.trim();
 
@@ -178,23 +185,33 @@ async function saveReview() {
     formData.append("message", message);
 
     try {
-        await fetch("../php/save_review.php", {
+        const response = await fetch("../php/save_review.php", {
             method: "POST",
             body: formData
         });
 
-        // Limpa os campos de entrada
-        nameInput.value = "";
-        msgInput.value = "";
+        const result = await response.json();
+        if (result.error) {
+            alert(result.error);
+        } else {
+            alert(result.success);
 
-        // Recarrega a lista de reviews
-        loadReviews();
+            // Limpa os campos de entrada
+            nameInput.value = "";
+            msgInput.value = "";
+
+            // Atualiza a lista de reviews
+            loadReviews();
+        }
     } catch (error) {
-        console.error("Erro ao salvar a review:", error);
+        console.error("Erro ao guardar a review:", error);
     }
 }
 
-// Adiciona o evento de clique ao botão de enviar
+// Submete a review ao clicar no botão
+const submitButton = document.getElementById("submit-review");
 if (submitButton) {
     submitButton.addEventListener("click", saveReview);
+} else {
+    console.error("Botão 'submit-review' não encontrado no DOM.");
 }

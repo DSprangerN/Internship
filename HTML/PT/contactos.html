@@ -62,11 +62,97 @@
     </div>
     <br>
     <div class="review-list">
-        <h3>Comentários:</h3>
+        <h3>Comentários</h3>
         <ul id="reviews"></ul>
     </div>
-
     <script src="../../js/scripts.js"></script>
+
+    <script>
+        // Função para carregar as reviews do servidor
+        async function loadReviews() {
+            const reviewsList = document.getElementById("reviews");
+            if (!reviewsList) {
+                console.error("Elemento 'reviews' não encontrado no DOM.");
+                return;
+            }
+    
+            try {
+                const response = await fetch("../../php/get_reviews.php");
+                if (!response.ok) {
+                    throw new Error(`Erro na requisição: ${response.statusText}`);
+                }
+                const reviews = await response.json();
+    
+                reviewsList.innerHTML = ""; // Limpa a lista antes de renderizar
+                reviews.forEach(review => {
+                    const li = document.createElement("li");
+                    li.innerHTML = `<strong>${review.name}:</strong> ${review.message}`;
+                    reviewsList.appendChild(li);
+                });
+            } catch (error) {
+                console.error("Erro ao carregar as reviews:", error);
+            }
+        }
+    
+        // Função para guardar uma nova review no servidor
+        async function saveReview() {
+            const nameInput = document.getElementById("name");
+            const msgInput = document.getElementById("msg");
+            const reviewsList = document.getElementById("reviews");
+    
+            if (!nameInput || !msgInput || !reviewsList) {
+                console.error("Elementos necessários para salvar a review não encontrados no DOM.");
+                return;
+            }
+    
+            const name = nameInput.value.trim();
+            const message = msgInput.value.trim();
+    
+            if (!name || !message) {
+                alert("Por favor, preencha o nome e o comentário.");
+                return;
+            }
+    
+            const formData = new FormData();
+            formData.append("name", name);
+            formData.append("message", message);
+    
+            try {
+                const response = await fetch("../../php/save_review.php", {
+                    method: "POST",
+                    body: formData
+                });
+    
+                const result = await response.json();
+                if (result.error) {
+                    alert(result.error);
+                } else {
+                    alert(result.success);
+    
+                    // Limpa os campos de entrada
+                    nameInput.value = "";
+                    msgInput.value = "";
+    
+                    // Atualiza a lista de reviews
+                    loadReviews();
+                }
+            } catch (error) {
+                console.error("Erro ao guardar a review:", error);
+            }
+        }
+    
+        // Submete a review ao clicar no botão
+        if (submitButton) {
+            submitButton.addEventListener("click", saveReview);
+        } else {
+            console.error("Botão 'submit-review' não encontrado no DOM.");
+        }
+    
+        // Carrega as reviews ao carregar a página
+        window.onload = function () {
+            loadReviews();
+        };
+    </script>
 </body>
 
 </html>

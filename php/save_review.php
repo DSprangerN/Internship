@@ -16,18 +16,23 @@ try {
         $nessage = $_POST['message'] ?? '';
 
         //Validar os dados
-        if (empty($name) || empty)
+        if (empty($name) || empty($message)) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Nome e mensagem são obrigatórios.']);
+            exit;
+        }
+
+        // Inserir a review na base de dados
+        $stmt = $pdo->prepare("INSERT INTO reviews (name, message) VALUES (:name, :message)");
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':message', $message);
+
+        echo json_encode(['success' => 'Review inserida com sucesso.']);
+    } else {
+        http_response_code(405);
+        echo json_encode(['error' => 'Métode não permitido.']);
     }
-
-    // Recebe os dados enviados via POST
-    $name = $_POST['name'];
-    $message = $_POST['message'];
-
-    // Insere a review no banco de dados
-    $stmt = $pdo->prepare("INSERT INTO reviews (name, message) VALUES (:name, :message)");
-    $stmt->execute(['name' => $name, 'message' => $message]);
-
-    echo "Review salva com sucesso!";
 } catch (PDOException $e) {
-    echo "Erro: " . $e->getMessage();
+    http_response_code(500);
+    echo json_encode(['error' => $e->getMessage()]);
 }
