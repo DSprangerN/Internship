@@ -4,7 +4,7 @@
 $host = 'localhost';
 $dbname = 'estrelinha_login';
 $username = 'root';
-$password = '';
+$password = 'Prisonbreak10';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
