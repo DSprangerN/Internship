@@ -26,27 +26,36 @@ if (mysqli_num_rows($result) > 0) {
     // Se o utilizador existir, verifica a senha
     $user = mysqli_fetch_assoc($result);
     if ($user['Password'] && password_verify($password, $user['Password'])) {
-        // Senha correta
-        $_SESSION['username'] = $user['Username'];
-        $_SESSION['user_id'] = $user['id_user'];
+        // Verifica se o utilizador está ativo
+        if (isset($user['Ativo']) && $user['Ativo'] == 1) {
+            // Senha correta e utilizador ativo
+            $_SESSION['username'] = $user['Username'];
+            $_SESSION['user_id'] = $user['id_user'];
 
-        if ($user['Username'] === 'mvicente') {
-            echo "<script>
+            if ($user['Username'] === 'mvicente') {
+                echo "<script>
+                    alert('Login efetuado com sucesso!');
+                    window.location.href='../php/admin.php';
+                    </script>";
+            } else {
+                echo "<script>
                 alert('Login efetuado com sucesso!');
-                window.location.href='../php/admin.php';
+                window.location.href='../php/user.php';
                 </script>";
+            }
         } else {
+            // Utilizador não está ativo
             echo "<script>
-            alert('Login efetuado com sucesso!');
-            window.location.href='../php/user.php';
-            </script>";
+                alert('A sua conta ainda não foi ativada pelo administrador. Por favor aguarde a ativação.');
+                window.location.href='../Login.html';
+                </script>";
         }
     } else {
         // Senha incorreta
         echo "<script>
-            alert('Senha incorreta. Por favor, tente novamente.');
-            window.location.href='../php/Login.php';
-            </script>";
+        alert('Senha incorreta. Por favor, tente novamente.');
+        window.location.href='../php/Login.php';
+        </script>";
     }
 } else {
     // Username não encontrado

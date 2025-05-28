@@ -19,12 +19,13 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['user_id'])) {
 }
 
 $colaboradores = [];
-$query = "SELECT id_user, Nome, Sobrenome FROM users_login ORDER BY Nome, Sobrenome";
+$query = "SELECT id_user, Nome, Sobrenome, Ativo FROM users_login ORDER BY Nome, Sobrenome";
 $result = mysqli_query($liga, $query);
 while ($row = mysqli_fetch_assoc($result)) {
     $colaboradores[] = [
         'id' => $row['id_user'],
-        'nome' => $row['Nome'] . ' ' . $row['Sobrenome']
+        'nome' => $row['Nome'] . ' ' . $row['Sobrenome'],
+        'ativo' => $row['Ativo']
     ];
 }
 
@@ -314,6 +315,20 @@ if (isset($_POST['atualizar_ementa'])) {
     // Mensagem de sucesso
     echo "<script>alert('Ementa atualizada com sucesso!');</script>";
 }
+
+if (isset($_POST['ativar_colaborador']) && isset($_POST['id_colaborador'])) {
+    $id_colaborador = intval($_POST['id_colaborador']);
+    $query = "UPDATE users_login SET ativo = 1 WHERE id_user = ?";
+    $stmt = mysqli_prepare($liga, $query);
+    mysqli_stmt_bind_param($stmt, 'i', $id_colaborador);
+    if (mysqli_stmt_execute($stmt)) {
+        $mensagem_colaboradores = "Colaborador ativado com sucesso!";
+        $mensagem_tipo_colaboradores = "success";
+    } else {
+        $mensagem_colaboradores = "Erro ao ativar colaborador.";
+        $mensagem_tipo_colaboradores = "danger";
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -329,6 +344,7 @@ if (isset($_POST['atualizar_ementa'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/multiple-select@1.7.0/dist/multiple-select.min.js"></script>
+    <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
 </head>
 
 <style>
@@ -690,7 +706,7 @@ if (isset($_POST['atualizar_ementa'])) {
         </div>
     <?php endif; ?>
 
-    <div class="collapse" id="tabelaColaboradores">
+    <div class="collapse" id="tabelaColaboradores" style="margin: auto; width: 100%; max-width: 600px;">
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -703,9 +719,18 @@ if (isset($_POST['atualizar_ementa'])) {
                     <tr>
                         <td><?= htmlspecialchars($col['nome']) ?></td>
                         <td>
-                            <form method="post" style="display:inline;" onsubmit="return confirmarEliminacao('<?= htmlspecialchars($col['nome']) ?>');">
+                            <?php
+                            if (!$col['ativo']): ?>
+                                <form method="post" style="display: inline;">
+                                    <input type="hidden" name="id_colaborador" value="<?= $col['id'] ?>">
+                                    <button type="submit" name="ativar_colaborador" class="btn btn-primary btn-sm">Ativar</button>
+                                </form>
+                            <?php else: ?>
+                                <span class="badge bg-success">Ativo</span>
+                            <?php endif ?>
+                            <form method="post" style="display: inline;" onsubmit="return confirmarEliminacao('<?= htmlspecialchars($col['nome']) ?>');">
                                 <input type="hidden" name="id_colaborador" value="<?= $col['id'] ?>">
-                                <button type="submit" name="eliminar_registo" class="btn btn-danger btn-sm">Eliminar Registo</button>
+                                <button type="submit" name="eliminar_registo" class="btn btn-danger btn-sm">Eliminar</button>
                             </form>
                         </td>
                     </tr>
@@ -723,7 +748,7 @@ if (isset($_POST['atualizar_ementa'])) {
     <br>
     <h1>Gestão de Ementas</h1>
     <br>
-    <form method="post" action="admin.php">
+    <form method="post" action="admin.php" style="margin: auto; width: 100%; max-width: 600px;">
         <table>
             <thead>
                 <tr>

@@ -109,6 +109,7 @@ if (isset($_GET['mes'])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
 </head>
 
 <style>
@@ -161,8 +162,8 @@ if (isset($_GET['mes'])) {
             <a href="../Login.html" class="btn btn-danger logout-button">Log Out</a>
         </div>
     </div>
+    <img src="../img/Logo_Estrelinha-Amarela.png" alt="Logo Estrelinha Amarela" height="200px" width="200px">
     <br>
-
     <div class="container mt-5">
         <h1 class="mb-4">Registo de Horas</h1>
         <form method="post" action="user.php" class="mb-4">
@@ -217,7 +218,7 @@ if (isset($_GET['mes'])) {
                     <select name="ano" id="ano" class="form-select">
                         <?php
                         $ano_atual = date('Y');
-                        for ($a = $ano_atual - 0; $a <= $ano_atual + 100; $a++): ?>
+                        for ($a = $ano_atual - 0; $a <= $ano_atual + 30; $a++): ?>
                             <option value="<?= $a ?>" <?= (isset($_GET['ano']) && $_GET['ano'] == $a) ? 'selected' : '' ?>>
                                 <?= $a ?>
                             </option>
@@ -283,7 +284,7 @@ if (isset($_GET['mes'])) {
 </body>
 
 <footer>
-    <a href="../HTML/privacidade.html">Política de Privacidade</a>
+    <a href="../HTML/PT/privacidade.html">Política de Privacidade</a>
 </footer>
 
 </html>

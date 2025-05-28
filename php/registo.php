@@ -38,15 +38,15 @@ if (mysqli_num_rows($result) > 0) {
     //O utilizador não existe, então é feito o registo
     $hashed_password = password_hash($password, PASSWORD_BCRYPT); // Criptografa a password
     // Script SQL para inserir o novo utilizador na base de dados
-    $query = "INSERT INTO users_login (Nome, Sobrenome, Username, Password)
-              VALUES (?, ?, ?, ?)";
+    $query = "INSERT INTO users_login (Nome, Sobrenome, Username, Password, Ativo)
+              VALUES (?, ?, ?, ?, 0)";
     $stmt = mysqli_prepare($liga, $query);
     mysqli_stmt_bind_param($stmt, "ssss", $nome, $sobrenome, $username, $hashed_password);
 
     if (mysqli_stmt_execute($stmt)) {
         // Registo bem-sucedido, redireciona para a página de login
         echo "<script>
-            alert('Registo efetuado com sucesso!');
+            alert('Registo efetuado com sucesso. Aguarde a ativação da sua conta pelo administrador.');
             window.location.href='../Login.html';
             </script>";
     } else {

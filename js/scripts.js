@@ -21,7 +21,7 @@ function confirmCustom(message, yesText, noText) {
         confirmBox.className = "confirm-box";
         confirmBox.innerHTML = `
             <div class="confirm-message">
-                <img src="../../img/mascote.png" alt="Mascote" class="mascote-confirm">
+                <img src="/Internship/img/mascote.png" alt="Mascote" class="mascote-confirm">
                 <p>${message}</p>
             </div>
             <button class="confirm-yes">${yesText}</button>

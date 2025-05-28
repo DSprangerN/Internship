@@ -15,32 +15,30 @@ body {
     overflow-x: hidden;
 }
 
-/* Estilo para o cabeçalho */
 header {
     position: relative;
     padding: 20px 0;
+    text-align: center;
 }
 
-/* Estilo para o título principal (h1) */
+.img-logo {
+    display: block;
+    margin: 0 auto;
+}
+
 h1 {
     margin: auto;
-    /* Centraliza o título horizontalmente */
     text-align: center;
-    /* Centraliza o texto */
     font-size: 36px;
-    /* Define o tamanho da fonte */
     color: #003366;
-    /* Define a cor do texto em azul escuro */
 }
 
-/* Estilo para o título principal */
 h2 {
     font-size: 36px;
     color: #003366;
     margin: 20px 0;
 }
 
-/* Estilo para o menu de navegação */
 .topnav {
     height: 0;
     width: 100%;
@@ -56,7 +54,6 @@ h2 {
     align-items: center;
 }
 
-/* Estilo para os links do menu */
 .topnav a {
     padding: 8px 16px;
     text-decoration: none;
@@ -66,12 +63,10 @@ h2 {
     transition: color 0.3s;
 }
 
-/* Estilo para os links do menu ao passar o mouse */
 .topnav a:hover {
     color: #4682B4;
 }
 
-/* Estilo para o botão de fechar o menu */
 .topnav .closebtn {
     position: absolute;
     top: 0;
@@ -82,13 +77,11 @@ h2 {
     cursor: pointer;
 }
 
-/* Estilo para os botões do menu */
 .menu-buttons {
     position: relative;
     margin: 16px;
 }
 
-/* Estilo para o botão principal do menu */
 .btn-menu {
     font-size: 20px;
     padding: 10px 20px;
@@ -99,12 +92,10 @@ h2 {
     border-radius: 15px;
 }
 
-/* Estilo para o botão principal ao passar o mouse */
 .btn-menu:hover {
     background-color: #4682B4;
 }
 
-/* Estilo para os botões de idioma */
 .btn-pt,
 .btn-eng {
     float: right;
@@ -118,13 +109,11 @@ h2 {
     color: #111;
 }
 
-/* Estilo para os botões de idioma ao passar o mouse */
 .btn-pt:hover,
 .btn-eng:hover {
     background-color: #87ceeb;
 }
 
-/* Estilo para a mascote */
 .mascote {
     position: absolute;
     width: 150px;
@@ -138,7 +127,6 @@ h2 {
     position: relative;
 }
 
-/* Estilo para a mensagem da mascote */
 .mascote-message {
     position: absolute;
     background-color: #f0f8ff;
@@ -156,7 +144,7 @@ h2 {
     text-align: left;
 }
 
-/* Estilo para a caixa de confirmação */
+
 .confirm-box {
     position: fixed;
     top: 50%;
@@ -173,19 +161,13 @@ h2 {
     word-wrap: break-word;
 }
 
-/* Estilo para a imagem dentro da caixa de confirmação */
 .mascote-confirm {
     width: 50px;
-    /* Reduz a largura da imagem */
     height: 50px;
-    /* Reduz a altura da imagem */
     display: block;
-    /* Garante que a imagem seja exibida como um bloco */
     margin: 0 auto 10px auto;
-    /* Centraliza a imagem e adiciona espaçamento inferior */
 }
 
-/* Estilo para os botões dentro da caixa de confirmação */
 .confirm-yes,
 .confirm-no {
     background-color: #add8e6;
@@ -203,17 +185,12 @@ h2 {
     background-color: #87ceeb;
 }
 
-/* Estilo para o texto dentro da caixa de confirmação */
 .confirm-message p {
     font-size: 14px;
-    /* Reduz o tamanho da fonte do texto */
     margin: 10px 0;
-    /* Adiciona espaçamento ao redor do texto */
     color: #111;
-    /* Cor do texto */
 }
 
-/* Estilo para o vídeo */
 .video_escola iframe {
     width: 80%;
     height: 400px;
@@ -222,75 +199,48 @@ h2 {
     display: block;
 }
 
-/* Estilo para a tabela */
 .tabela-ementa {
     width: 50%;
-    /* Define a largura da tabela */
     border-collapse: collapse;
-    /* Remove os espaços entre as bordas */
     margin: auto;
-    /* Centraliza a tabela */
     font-size: 18px;
-    /* Define o tamanho da fonte */
     text-align: center;
-    /* Centraliza o texto */
 }
 
-/* Estilo para as células da tabela */
 .tabela-ementa th,
 .tabela-ementa td {
     border: 1px solid #ccc;
-    /* Borda cinza clara */
     padding: 12px;
-    /* Espaçamento interno */
 }
 
-/* Estilo para os cabeçalhos da tabela */
 .tabela-ementa th {
     background-color: #b3d9ff;
-    /* Fundo azul pastel */
     color: #003366;
-    /* Texto azul escuro */
     font-weight: bold;
-    /* Texto em negrito */
     text-align: center;
-    /* Centraliza o texto */
 }
 
-/* Estilo para as linhas pares da tabela */
 .tabela-ementa tr:nth-child(even) {
     background-color: #e6f2ff;
-    /* Fundo azul claro */
 }
 
-/* Estilo para as linhas ímpares da tabela */
 .tabela-ementa tr:nth-child(odd) {
     background-color: #ffffff;
-    /* Fundo branco */
 }
 
-/* Estilo para as linhas ao passar o mouse */
 .tabela-ementa tr:hover {
     background-color: #cce6ff;
-    /* Fundo azul pastel mais forte */
 }
 
-/* Estilo para a primeira coluna da tabela */
 .tabela-ementa th:first-child {
     text-align: left;
-    /* Alinha o texto à esquerda */
     background-color: #99ccff;
-    /* Fundo azul pastel mais forte */
     color: #003366;
-    /* Texto azul escuro */
 }
 
-/* Estilo para a área de texto */
 textarea {
     height: 200px;
-    /* Altura da área de texto */
     width: 400px;
-    /* Largura da área de texto */
 }
 
 .reviews {
@@ -354,22 +304,16 @@ textarea {
     border-radius: 50px 50px 50px 50px;
     margin-left: 15%;
     width: 90%;
-    /* Largura responsiva */
     max-width: 250px;
-    /* Limita a largura máxima */
     font-size: small;
     text-align: justify;
     word-wrap: break-word;
-    /* Quebra palavras longas */
     overflow-wrap: break-word;
-    /* Compatibilidade adicional */
     padding: 10px;
-    /* Espaçamento interno */
 }
 
 form {
     max-width: 400px;
-    ;
     margin: 20px auto 20px auto;
     padding: 50px;
     background-color: #ffffff;
