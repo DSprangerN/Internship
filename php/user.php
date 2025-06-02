@@ -34,36 +34,67 @@ if (
 }
 
 // Registo de Horas
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registar_horas'])) {
-    $data = $_POST['data_registo'];
-    $hora_entrada = $_POST['hora_entrada'];
-    $hora_saida = $_POST['hora_saida'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $data = $_POST['data_registo'] ?? date('Y-m-d');
+    $hora_atual = date('Y-m-d H:i:s');
 
-    //Verificar se já existem dados para a data selecionada
-    $query = "SELECT * FROM registo_horas WHERE id_user = ? AND Data = ?";
-    $stmt = mysqli_prepare($liga, $query);
-    mysqli_stmt_bind_param($stmt, "is", $user_id, $data);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
+    // Entrada
+    if (isset($_POST['registar_entrada'])) {
+        // Verificar se já existe regist0 para o dia
+        $query = "SELECT * FROM registo_horas WHERE id_user = ? AND DATA = ?";
+        $stmt = mysqli_prepare($liga, $query);
+        mysqli_stmt_bind_param($stmt, "is", $user_id, $data);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
 
-    if (mysqli_num_rows($result) > 0) {
-        echo "<script>alert('Já existe um registo de horas para esta data.');</script>";
-    } else {
-        if (!$hora_entrada || !$hora_saida) {
-            echo "<script>alert('Preencha ambas as horas.');</script>";
+        if (mysqli_num_rows($result) > 0) {
+            echo "<script>
+                alert('Já existe uma entrada registada para este dia.');
+                </script>";
         } else {
-            $query = "INSERT INTO registo_horas (id_user, Data, Hora_Entrada, Hora_Saida) VALUES (?,?,?,?)";
+            $query = "INSERT INTO registo_horas (id_user, Data, Hora_Entrada) VALUES (?, ?, ?)";
             $stmt = mysqli_prepare($liga, $query);
-            mysqli_stmt_bind_param($stmt, "isss", $user_id, $data, $hora_entrada, $hora_saida);
+            mysqli_stmt_bind_param($stmt, "iss", $user_id, $data, $hora_atual);
             if (mysqli_stmt_execute($stmt)) {
-                echo "<script>alert('Horas registadas com sucesso!');</script>";
+                echo "<script>
+                    alert('Entrada registada com sucesso.');
+                    </script>";
             } else {
-                echo "<script>alert('Erro ao registar horas.');</script>";
+                echo "<script>
+                    alert('Erro ao registar entrada.');
+                    </script>";
+            }
+        }
+    }
+
+    // Registar Saída
+    if (isset($_POST['registar_saida'])) {
+        // Verificar se já existe registo de saída
+        $query = "SELECT * FROM registo_horas WHERE id_user = ? AND Data = ?";
+        $stmt = mysqli_prepare($liga, $query);
+        mysqli_stmt_bind_param($stmt, "is", $user_id, $data);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        if (mysqli_num_rows($result) == 0) {
+            echo "<script>
+                alert('Registe primeiro a entrada!');</script>";
+        } else {
+            $query = "UPDATE registo_horas SET Hora_Saida = ? WHERE id_user = ? AND Data = ?";
+            $stmt = mysqli_prepare($liga, $query);
+            mysqli_stmt_bind_param($stmt, "sis", $hora_atual, $user_id, $data);
+            if (mysqli_stmt_execute($stmt)) {
+                echo "<script>
+                    alert('Saída registada com sucesso!');
+                    </script>";
+            } else {
+                echo "<script>
+                    alert('Erro ao registar a saída.');
+                    </script>";
             }
         }
     }
 }
-
 // Banco de Horas
 $banco_horas = [];
 if (isset($_GET['mes'])) {
@@ -81,10 +112,10 @@ if (isset($_GET['mes'])) {
         $ano = $row['Data'];
 
         //Horas trabalhadas
-        $entrada_dt = Datetime::createFromFormat('H:i:s', $entrada);
-        $saida_dt = Datetime::createFromFormat('H:i:s', $saida);
+        $entrada_dt = $entrada ? new Datetime($entrada) : null;
+        $saida_dt = $saida ? new DateTime($saida) : null;
         $intervalo = $entrada_dt && $saida_dt ? $entrada_dt->diff($saida_dt) : null;
-        $horas_trabalhadas = $intervalo ? ($intervalo->h + $intervalo->i / 60 - 1) : 0; //-1hora de almoço
+        $horas_trabalhadas = $intervalo ? ($intervalo->h + $intervalo->i / 60 + $intervalo->s / 3600 - 1) : 0; //-1hora de almoço
 
         $banco_horas[] = [
             'data' => $row['Data'],
@@ -170,18 +201,13 @@ if (isset($_GET['mes'])) {
             <div class="row g-2 align-items-end">
                 <div class="col-auto">
                     <label for="data_registo" class="form-label">Dia</label>
-                    <input type="text" id="data_registo" name="data_registo" class="form-control" required autocomplete="off" readonly>
+                    <input type="text" id="data_registo" name="data_registo" class="form-control" placeholder="AAAA-MM-DD" required autocomplete="off">
                 </div>
                 <div class="col-auto">
-                    <label for="hora_entrada" class="form-label">Hora de Entrada</label>
-                    <input type="time" id="hora_entrada" name="hora_entrada" class="form-control" required>
+                    <button type="submit" name="registar_entrada" class="btn btn-success">Entrada</button>
                 </div>
                 <div class="col-auto">
-                    <label for="hora_saida" class="form-labe">Hora de Saída</label>
-                    <input type="time" id="hora_saida" name="hora_saida" class="form-control" required>
-                </div>
-                <div class="col-auto">
-                    <button type="submit" name="registar_horas" class="btn btn-primary">Registar</button>
+                    <button type="submit" name="registar_saida" class="btn btn-warning">Saída</button>
                 </div>
             </div>
         </form>
@@ -252,8 +278,8 @@ if (isset($_GET['mes'])) {
                         ?>
                             <tr>
                                 <td><?= $linha['data'] ?></td>
-                                <td><?= isset($linha['entrada']) ? substr($linha['entrada'], 0, 5) : '-' ?></td>
-                                <td><?= isset($linha['saida']) ? substr($linha['saida'], 0, 5) : '-' ?></td>
+                                <td><?= isset($linha['entrada']) ? date('H:i', strtotime($linha['entrada'])) : '-' ?></td>
+                                <td><?= isset($linha['saida']) ? date('H:i', strtotime($linha['saida'])) : '-' ?></td>
                                 <td><?= number_format($linha['horas'] ?? 0, 2, ',', '') ?></td>
                                 <td><?= number_format($linha['saldo'] ?? 0, 2, ',', '') ?></td>
                             </tr>
@@ -281,10 +307,10 @@ if (isset($_GET['mes'])) {
             });
         });
     </script>
-</body>
 
-<footer>
-    <a href="../HTML/PT/privacidade.html">Política de Privacidade</a>
-</footer>
+    <footer>
+        <a href="../HTML/PT/privacidade.html">Política de Privacidade</a>
+    </footer>
+</body>
 
 </html>

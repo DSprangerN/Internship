@@ -230,92 +230,7 @@ if (isset($_POST['eliminar_registo']) && isset($_POST['id_colaborador'])) {
     }
 }
 
-// Atualizar a ementa da página missao.html
-if (isset($_POST['atualizar_ementa'])) {
-    // Definir os valores da ementa com verificação de existência no $_POST
-    $ementa = [
-        'segunda-feira' => [
-            'sopa' => isset($_POST['sopa_segunda']) ? $_POST['sopa_segunda'] : '',
-            'prato' => isset($_POST['prato_segunda']) ? $_POST['prato_segunda'] : ''
-        ],
-        'terca-feira' => [
-            'sopa' => isset($_POST['sopa_terca']) ? $_POST['sopa_terca'] : '',
-            'prato' => isset($_POST['prato_terca']) ? $_POST['prato_terca'] : ''
-        ],
-        'quarta-feira' => [
-            'sopa' => isset($_POST['sopa_quarta']) ? $_POST['sopa_quarta'] : '',
-            'prato' => isset($_POST['prato_quarta']) ? $_POST['prato_quarta'] : ''
-        ],
-        'quinta-feira' => [
-            'sopa' => isset($_POST['sopa_quinta']) ? $_POST['sopa_quinta'] : '',
-            'prato' => isset($_POST['prato_quinta']) ? $_POST['prato_quinta'] : ''
-        ],
-        'sexta-feira' => [
-            'sopa' => isset($_POST['sopa_sexta']) ? $_POST['sopa_sexta'] : '',
-            'prato' => isset($_POST['prato_sexta']) ? $_POST['prato_sexta'] : ''
-        ]
-    ];
-
-    // Caminho para o arquivo missao.html
-    $arquivo = '../HTML/PT/missao.html';
-
-    // Verifica se o arquivo existe antes de tentar lê-lo
-    if (file_exists($arquivo)) {
-        $conteudo = file_get_contents($arquivo);
-    } else {
-        die("Erro: O arquivo missao.html não foi encontrado.");
-    }
-
-    // Substituir a tabela existente pela nova tabela
-    $nova_tabela = '
-        <table class="tabela-ementa">
-            <thead>
-                <tr>
-                    <th id="branco"></th>
-                    <th>Segunda-feira</th>
-                    <th>Terça-feira</th>
-                    <th>Quarta-feira</th>
-                    <th>Quinta-feira</th>
-                    <th>Sexta-feira</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th>Sopa</th>
-                    <td>' . htmlspecialchars($ementa['segunda-feira']['sopa']) . '</td>
-                    <td>' . htmlspecialchars($ementa['terca-feira']['sopa']) . '</td>
-                    <td>' . htmlspecialchars($ementa['quarta-feira']['sopa']) . '</td>
-                    <td>' . htmlspecialchars($ementa['quinta-feira']['sopa']) . '</td>
-                    <td>' . htmlspecialchars($ementa['sexta-feira']['sopa']) . '</td>
-                </tr>
-                <tr>
-                    <th>Prato Principal</th>
-                    <td>' . htmlspecialchars($ementa['segunda-feira']['prato']) . '</td>
-                    <td>' . htmlspecialchars($ementa['terca-feira']['prato']) . '</td>
-                    <td>' . htmlspecialchars($ementa['quarta-feira']['prato']) . '</td>
-                    <td>' . htmlspecialchars($ementa['quinta-feira']['prato']) . '</td>
-                    <td>' . htmlspecialchars($ementa['sexta-feira']['prato']) . '</td>
-                </tr>
-            </tbody>
-        </table>
-    ';
-
-    // Substituir a tabela antiga pela nova no conteúdo do arquivo
-    $conteudo_atualizado = preg_replace(
-        '/<table class="tabela-ementa">.*?<\/table>/s',
-        $nova_tabela,
-        $conteudo
-    );
-
-    // Salvar o conteúdo atualizado no arquivo
-    if (file_put_contents($arquivo, $conteudo_atualizado) === false) {
-        die("Erro: Não foi possível atualizar o arquivo missao.html.");
-    }
-
-    // Mensagem de sucesso
-    echo "<script>alert('Ementa atualizada com sucesso!');</script>";
-}
-
+// Ativar colaborador
 if (isset($_POST['ativar_colaborador']) && isset($_POST['id_colaborador'])) {
     $id_colaborador = intval($_POST['id_colaborador']);
     $query = "UPDATE users_login SET ativo = 1 WHERE id_user = ?";
@@ -329,6 +244,10 @@ if (isset($_POST['ativar_colaborador']) && isset($_POST['id_colaborador'])) {
         $mensagem_tipo_colaboradores = "danger";
     }
 }
+
+// Atualizar a ementa da página missao.html
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -749,46 +668,20 @@ if (isset($_POST['ativar_colaborador']) && isset($_POST['id_colaborador'])) {
     <h1>Gestão de Ementas</h1>
     <br>
     <form method="post" action="admin.php" style="margin: auto; width: 100%; max-width: 600px;">
-        <table>
-            <thead>
-                <tr>
-                    <th>Dia</th>
-                    <th>Sopa</th>
-                    <th>Prato Principal</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Segunda-feira</td>
-                    <td><input type="text" name="sopa_segunda" required></td>
-                    <td><input type="text" name="prato_segunda" required></td>
-                </tr>
-                <tr>
-                    <td>Terça-feira</td>
-                    <td><input type="text" name="sopa_terca" required></td>
-                    <td><input type="text" name="prato_terca" required></td>
-                </tr>
-                <tr>
-                    <td>Quarta-feira</td>
-                    <td><input type="text" name="sopa_quarta" required></td>
-                    <td><input type="text" name="prato_quarta" required></td>
-                </tr>
-                <tr>
-                    <td>Quinta-feira</td>
-                    <td><input type="text" name="sopa_quinta" required></td>
-                    <td><input type="text" name="prato_quinta" required></td>
-                </tr>
-                <tr>
-                    <td>Sexta-feira</td>
-                    <td><input type="text" name="sopa_sexta" required></td>
-                    <td><input type="text" name="prato_sexta" required></td>
-                </tr>
-            </tbody>
-        </table>
-        <br>
-        <button type="submit" name="atualizar_ementa" class="btn btn-primary">Atualizar Ementa</button>
+        <div class="mb-3">
+            <label for="ementa_img" class="form-label">Selecionar imagem da ementa (JPG, PNG):</label>
+            <input type="file" name="ementa_img" id="ementa_img" class="form-control" accept="image/*" required>
+        </div>
+        <button type="submit" name="upload_ementa" class="btn btn-primary">Publicar Ementa</button>
     </form>
     <br>
+
+    <?php if (!empty($mensagem_ementa)): ?>
+        <div class="alert alert-<?= $mensagem_tipo_ementa ?> alert-dismissible fade show" role="alert">
+            <?= $mensagem_ementa ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
 
     <script>
         $(function() {
