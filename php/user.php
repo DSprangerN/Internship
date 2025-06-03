@@ -19,7 +19,6 @@ $user_id = $_SESSION['user_id'];
 // Verificação em php por ser mais seguro no servidor que no cliente
 $allowed_public_ip = '95.92.13.189'; // Subsituir pelo IP da escola
 $userIP = $_SERVER['REMOTE_ADDR'];
-echo "<script>alert('O seu IP é: $userIP');</script>";
 
 if (
     $userIP !== $allowed_public_ip &&
@@ -32,6 +31,9 @@ if (
         </script>";
     exit();
 }
+
+// Definir o fuso horário para Portugal
+date_default_timezone_set('Europe/Lisbon');
 
 // Registo de Horas
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -114,15 +116,31 @@ if (isset($_GET['mes'])) {
         //Horas trabalhadas
         $entrada_dt = $entrada ? new Datetime($entrada) : null;
         $saida_dt = $saida ? new DateTime($saida) : null;
-        $intervalo = $entrada_dt && $saida_dt ? $entrada_dt->diff($saida_dt) : null;
-        $horas_trabalhadas = $intervalo ? ($intervalo->h + $intervalo->i / 60 + $intervalo->s / 3600 - 1) : 0; //-1hora de almoço
+        $intervalo = ($entrada_dt && $saida_dt) ? $entrada_dt->diff($saida_dt) : null;
 
+        //Se houver intervalo, subtrai 1h
+        if ($intervalo) {
+            $total_minutos = ($intervalo->h * 60 + $intervalo->i + floor($intervalo->s / 60)) - 60; // 60min ou 1h de almoço
+            if ($total_minutos < 0) $total_minutos = 0;
+
+            $total_minutos_arredondado = ceil($total_minutos / 30) * 30;
+
+            $horas_trabalhadas_h = floor($total_minutos / 60);
+            $horas_trabalhadas_m = $total_minutos_arredondado % 60;
+            $horas_trabalhadas_str = sprintf('%dh%02d', $horas_trabalhadas_h, $horas_trabalhadas_m);
+            //Saldo em decimal
+            $horas_trabalhadas_decimal = $total_minutos_arredondado / 60;
+            $saldo = $horas_trabalhadas_decimal - 8;
+        } else {
+            $horas_trabalhadas_str = '0h00';
+            $saldo = 0;
+        }
         $banco_horas[] = [
             'data' => $row['Data'],
             'entrada' => $entrada,
             'saida' => $saida,
-            'horas' => $horas_trabalhadas,
-            'saldo' => $horas_trabalhadas - 8
+            'horas' => $horas_trabalhadas_str,
+            'saldo' => $saldo
         ];
     }
 }
@@ -135,12 +153,12 @@ if (isset($_GET['mes'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registo de Horas</title>
+    <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
-    <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
 </head>
 
 <style>
@@ -280,7 +298,7 @@ if (isset($_GET['mes'])) {
                                 <td><?= $linha['data'] ?></td>
                                 <td><?= isset($linha['entrada']) ? date('H:i', strtotime($linha['entrada'])) : '-' ?></td>
                                 <td><?= isset($linha['saida']) ? date('H:i', strtotime($linha['saida'])) : '-' ?></td>
-                                <td><?= number_format($linha['horas'] ?? 0, 2, ',', '') ?></td>
+                                <td><?= $linha['horas'] ?></td>
                                 <td><?= number_format($linha['saldo'] ?? 0, 2, ',', '') ?></td>
                             </tr>
                         <?php endforeach; ?>

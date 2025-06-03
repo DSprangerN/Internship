@@ -246,7 +246,58 @@ if (isset($_POST['ativar_colaborador']) && isset($_POST['id_colaborador'])) {
 }
 
 // Atualizar a ementa da página missao.html
+$mensagem_ementa = '';
+$mensagem_tipo_ementa = '';
 
+if (isset($_POST['upload_ementa']) && isset($_FILES['ementa_img'])) {
+    $img = $_FILES['ementa_img'];
+    $permitidos = ['image/jpeg', 'image/png', 'image/jpg'];
+    if ($img['error'] === 0 && in_array($img['type'], $permitidos)) {
+        $ext = strtolower(pathinfo($img['name'], PATHINFO_EXTENSION));
+        $nome_final = 'ementa_' . date('Ymd_His') . '.' . $ext;
+        $destino = '../img/ementas/' . $nome_final;
+        if (!is_dir('../img/ementas')) {
+            mkdir('../img/ementas', 0777, true);
+        }
+        if (move_uploaded_file($img['tmp_name'], $destino)) {
+            // Atualizar missao.html
+            $arquivo = '../HTML/PT/missao.html';
+            if (file_exists($arquivo)) {
+                $conteudo = file_get_contents($arquivo);
+
+                // Gera o bloco da imagem
+                $bloco = '<img id="ementa-img" src="../../img/ementas/' . $nome_final . '" alt="Ementa Semanal" style="max-width:100%;height:auto;margin:20px auto;display:block;">';
+
+                // Substitui bloco antigo ou insere antes do #bebe-gourmet
+                if (strpos($conteudo, 'id="ementa-img"') !== false) {
+                    $conteudo_atualizado = preg_replace(
+                        '/<img id="ementa-img".*?>/s',
+                        $bloco,
+                        $conteudo
+                    );
+                } else {
+                    $conteudo_atualizado = preg_replace(
+                        '/(<div id="bebe-gourmet">)/',
+                        $bloco . '$1',
+                        $conteudo
+                    );
+                }
+                file_put_contents($arquivo, $conteudo_atualizado);
+                $mensagem_ementa = "Ementa publicada com sucesso!";
+                $mensagem_tipo_ementa = "success";
+            } else {
+                $mensagem_ementa = "Erro: Ficheiro missao.html não encontrado.";
+                $mensagem_tipo_ementa = "danger";
+            }
+        } else {
+            $mensagem_ementa = "Erro ao guardar o ficheiro.";
+            $mensagem_tipo_ementa = "danger";
+        }
+    } else {
+        $mensagem_ementa = "Ficheiro inválido. Só são permitidas imagens JPEG ou PNG.";
+        $mensagem_tipo_ementa = "danger";
+    }
+}
 
 ?>
 <!DOCTYPE html>
@@ -667,9 +718,9 @@ if (isset($_POST['ativar_colaborador']) && isset($_POST['id_colaborador'])) {
     <br>
     <h1>Gestão de Ementas</h1>
     <br>
-    <form method="post" action="admin.php" style="margin: auto; width: 100%; max-width: 600px;">
+    <form method="post" action="admin.php" enctype="multipart/form-data" style="margin: auto; width: 100%; max-width: 600px;">
         <div class="mb-3">
-            <label for="ementa_img" class="form-label">Selecionar imagem da ementa (JPG, PNG):</label>
+            <label for="ementa_img" class="form-label">Selecionar imagem ou PDF da ementa (JPG, PNG, PDF):</label>
             <input type="file" name="ementa_img" id="ementa_img" class="form-control" accept="image/*" required>
         </div>
         <button type="submit" name="upload_ementa" class="btn btn-primary">Publicar Ementa</button>

@@ -199,45 +199,6 @@ h2 {
     display: block;
 }
 
-.tabela-ementa {
-    width: 50%;
-    border-collapse: collapse;
-    margin: auto;
-    font-size: 18px;
-    text-align: center;
-}
-
-.tabela-ementa th,
-.tabela-ementa td {
-    border: 1px solid #ccc;
-    padding: 12px;
-}
-
-.tabela-ementa th {
-    background-color: #b3d9ff;
-    color: #003366;
-    font-weight: bold;
-    text-align: center;
-}
-
-.tabela-ementa tr:nth-child(even) {
-    background-color: #e6f2ff;
-}
-
-.tabela-ementa tr:nth-child(odd) {
-    background-color: #ffffff;
-}
-
-.tabela-ementa tr:hover {
-    background-color: #cce6ff;
-}
-
-.tabela-ementa th:first-child {
-    text-align: left;
-    background-color: #99ccff;
-    color: #003366;
-}
-
 textarea {
     height: 200px;
     width: 400px;
@@ -290,13 +251,16 @@ textarea {
 }
 
 #missao,
-#ementa,
-#atividades {
+#ementa {
     border: 1px solid #5a9bd3;
     border-radius: 50px 50px 50px 50px;
     margin: auto;
     padding: 20px;
     width: 70%;
+}
+
+li {
+    text-align: left;
 }
 
 #bebe-gourmet {
