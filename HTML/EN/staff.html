@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docentes</title>
+    <link rel="stylesheet" href="../../CSS/style.css">
+    <link rel="icon" type="image/x-icon" href="../../img/favicon.ico">
+</head>
+
+<header>
+    <!-- Botão para abrir o menu -->
+    <div class="menu-buttons">
+        <button type="button" id="btn-menu" class="btn-menu" onclick="openNav()">Menu</button>
+    </div>
+
+    <div id="myTopnav" class="topnav">
+        <span class="closebtn" onclick="closeNav()">&times;</span>
+        <a href="../../indexPT.html">Home</a>
+        <a href="mission.html">Mission</a>
+        <a href="ativities.html">Ativities</a>
+        <a href="aplication.html">Aplication</a>
+        <a href="contacts.html">Contacts</a>
+    </div>
+
+    <div id="lang">
+        <button type="button" id="btn-pt" class="btn-pt"
+            onclick="window.location.href='../PT/docentes.html'">PT</button>
+        <button type="button" id="btn-eng" class="btn-eng" onclick="window.location.href='../EN/staff.html'">EN</button>
+    </div>
+    <img src="../../img/Logo_Estrelinha-Amarela.png" alt="Logo Estrelinha Amarela" height="200px" width="200px"
+        class="img-logo">
+    <br>
+</header>
+
+<body>
+    <!-- Título principal -->
+    <h2 id="main-title">Staff</h2>
+
+    <!-- Lista de docentes -->
+    <div id="docentes-list">
+        <h3>Get to know our Staff:</h3>
+        <ul>
+            <li><strong>Maria Silva</strong> - Professora de Matemática</li>
+            <li><strong>João Pereira</strong> - Professor de Ciências</li>
+            <li><strong>Ana Costa</strong> - Professora de História</li>
+            <li><strong>Pedro Santos</strong> - Professor de Educação Física</li>
+        </ul>
+    </div>
+
+    <script src="../../js/scripts.js"></script>
+    <img id="mascote" src="../../img/mascote.png" alt="Mascote" class="mascote" style="display:none;">
+    <div id="mascote-message" class="mascote-message" style="display:none;"></div>
+</body>
+
+</html>

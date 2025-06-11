@@ -120,7 +120,10 @@ function Help() {
 }
 
 // Exibe a caixa de texto ao carregar a página
-window.onload = function () {
-    Help(); // Chama a função de ajuda interativa
-    loadReviews(); // Carrega as reviews
-};
+// Exibe a caixa de texto ao carregar a página
+window.addEventListener("load", function () {
+    Help(); //função de ajuda interativa
+    if (typeof loadReviews === "function") {
+        loadReviews(); //Só chama esta função se existir (contacts.html) assim evita erros em outras páginas
+    }
+});
