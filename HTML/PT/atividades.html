@@ -12,7 +12,10 @@
             text-align: left;
         }
 
-        .atividades {
+        #atividades,
+        #curriculares,
+        #extracurriculares,
+        .gallery-container {
             border: 1px solid #5a9bd3;
             border-radius: 50px 50px 50px 50px;
             margin: auto;
@@ -52,7 +55,7 @@
 
 <body>
     <br>
-    <div class="atividades">
+    <div id="atividades">
         <p>
             No Jardim de Infância <strong>A Estrelinha Amarela</strong>, valorizamos o desenvolvimento integral das
             crianças,
@@ -65,7 +68,7 @@
     <br>
     <br>
 
-    <div class="atividades">
+    <div id="curriculares">
         <h2>Atividades Curriculares</h2>
         <p>
             Integradas na mensalidade, as nossas atividades curriculares são cuidadosamente selecionadas para promover o
@@ -85,24 +88,38 @@
         </ul>
         </p>
         <hr>
-        <img src="../../img/atividades2.jpg" style="height: 500px;width: 800px;">
+        <br>
+        <div class="gallery-container">
+
+            <img id="galleryImg" src="../../img/atividades/atividades1.jpg"
+                style="width: 100%;vertical-align: middle;margin-top: 15px;">
+            <button id="prevImg" class="btn btn-primary" style="margin-right: 10px;margin-top: 5px;">&#8592;
+                Prev</button>
+            <button id="nextImg" class="btn btn-primary" style="margin-left: 10px;margin-top: 5px;">Next
+                &#8594;</button>
+        </div>
     </div>
     <br>
-    <div class="atividades">
+    <hr style="width: 70%;">
+    <br>
+    <div id="extracurriculares">
         <h2>Atividades Extracurriculares</h2>
         <br>
         <p>Complementarmente, disponibilizamos atividades extracurriculares de frequência facultativa, ajustadas aos
             interesses e motivações das crianças.
-            Esta oferta é revista anualmente, tendo em conta as preferências manifestadas pelos nossos mais pequenos e
+            Esta oferta é revista anualmente, tendo em conta as preferências manifestadas pelos nossos mais pequenos
+            e
             pelas suas famílias. Acreditamos que,
-            através destas experiências diversificadas, contribuímos para uma aprendizagem mais rica, significativa e
+            através destas experiências diversificadas, contribuímos para uma aprendizagem mais rica, significativa
+            e
             feliz.
         </p>
         <p>
             No presente ano lectivo temos:
         </p>
         <ul>
-            <li><strong>Dança</strong> - Oferece às crianças uma forma divertida e criativa de se expressarem através do
+            <li><strong>Dança</strong> - Oferece às crianças uma forma divertida e criativa de se expressarem
+                através do
                 movimento. Ao som de diferentes estilos musicais, as crianças desenvolvem a coordenação motora, o
                 sentido rítmico, a consciência corporal e a autoconfiança, enquanto promove o trabalho em equipa, a
                 concentração e a disciplina. Durante as aulas, as crianças exploram coreografias simples, jogos de
@@ -110,13 +127,37 @@
             </li>
         </ul>
         <hr>
-        <img src="../../img/atividades1.jpg" style="height: 500px;width: 800px;">
         <br>
     </div>
+    <br>
+    <br>
 
     <script src="../../js/scripts.js"></script>
     <img id="mascote" src="../../img/mascote.png" alt="Mascote" class="mascote" style="display:none;">
     <div id="mascote-message" class="mascote-message" style="display:none;"></div>
+
+    <script>
+        const images = [
+            "../../img/atividades/atividades1.jpg",
+            "../../img/atividades/atividades2.jpg",
+            "../../img/atividades/en.png",
+            "../../img/atividades/english.png",
+            "../../img/atividades/ingles.png",
+            "../../img/atividades/music.jpg",
+            "../../img/atividades/music.png"
+        ];
+        let current = 0;
+
+        const galleryImg = document.getElementById("galleryImg");
+        document.getElementById("prevImg").onclick = function () {
+            current = (current - 1 + images.length) % images.length;
+            galleryImg.src = images[current];
+        };
+        document.getElementById("nextImg").onclick = function () {
+            current = (current + 1) % images.length;
+            galleryImg.src = images[current];
+        };
+    </script>
 </body>
 
 </html>

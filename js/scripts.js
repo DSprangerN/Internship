@@ -47,11 +47,19 @@ function confirmCustom(message, yesText, noText) {
 function startHelp() {
     // Lista de elementos que a mascote deve destacar
     const elements = [
-        { id: "btn-menu", message: "Este botão abre o menu." },
-        { id: "btn-pt", message: "Este botão muda o idioma para Português." },
-        { id: "btn-eng", message: "Este botão muda o idioma para Inglês." },
-        { id: "main-title", message: "Este é o título principal." },
-        { id: "video_escola", message: "Aqui você pode assistir ao vídeo da escola." }
+        { selector: "#btn-menu", message: "Este botão abre o menu." },
+        { selector: "#btn-pt", message: "Este botão muda o idioma para Português." },
+        { selector: "#btn-eng", message: "Este botão muda o idioma para Inglês." },
+        { selector: "#video_escola", message: "Aqui você pode assistir ao vídeo da escola." },
+        { selector: "#galeria", message: "Aqui pode ver uma galeria com fotos" },
+        { selector: "#missao", message: "Aqui pode ver qual é a nossa missão enquanto Jardim de Infância" },
+        { selector: "#ementa", message: "Aqui pode consultar a ementa mensal" },
+        { selector: "#curriculares", message: "Aqui pode ver as atividades curriculares que temos na Estrelinha Amarela" },
+        { selector: "#extracurriculares", message: "Aqui pode ver que atividades extracurriculares que temos disponíveis" },
+        { selector: "#inscricao", message: "Aqui pode fazer a inscrição do seu educando" },
+        { selector: "#contactos", message: "Aqui pode consultar os contactos, morada e obter as direções para a Estrelinha Amarela" },
+        { selector: ".reviews", message: "Aqui pode deixar um comentário da sua experiência connosco." },
+        { selector: ".review-list", message: "Aqui podes consultar experiências passadas de outros encarregados de educação que tiveram connosco" }
         // Adicione novos elementos aqui, seguindo o formato { id: "id-do-elemento", message: "Mensagem da mascote." }
     ];
 
@@ -63,7 +71,7 @@ function startHelp() {
 
     function nextElement() {
         if (indice < elements.length) {
-            const element = document.getElementById(elements[indice].id);
+            const element = document.querySelector(elements[indice].selector);
             if (!element) {
                 // Se o elemento não existir, pula para o próximo
                 indice++;

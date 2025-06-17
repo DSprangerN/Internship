@@ -7,6 +7,19 @@
     <title>Inscrição</title>
     <link rel="stylesheet" href="../../CSS/style.css">
     <link rel="icon" type="image/x-icon" href="../../img/favicon.ico">
+    <style>
+        form {
+            max-width: 600px;
+            margin: 20px auto 20px auto;
+            padding: 50px;
+            background-color: #ffffff;
+            border: 5px solid #000000;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            justify-content: center;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <header>
@@ -25,8 +38,10 @@
     </div>
 
     <div id="lang">
-        <button type="button" id="btn-pt" class="btn-pt" onclick="lang()">PT</button>
-        <button type="button" id="btn-eng" class="btn-eng" onclick="lang()">EN</button>
+        <button type="button" id="btn-pt" class="btn-pt"
+            onclick="window.location.href='../PT/inscricao.html'">PT</button>
+        <button type="button" id="btn-eng" class="btn-eng"
+            onclick="window.location.href='../EN/aplication.html'">EN</button>
     </div>
     <img src="../../img/Logo_Estrelinha-Amarela.png" alt="Logo Estrelinha Amarela" height="200px" width="200px"
         class="img-logo">
@@ -38,11 +53,17 @@
     <h2 id="main-title">Inscrição</h2>
 
     <!-- Formulário de inscrição -->
-    <div id="inscricao-form">
+    <div id="inscricao">
         <h3>Preencha o formulário para se inscrever:</h3>
-        <form action="#" method="post">
-            <label for="nome">Nome:</label>
+        <form action="../../php/inscricao.php" method="post">
+            <label for="encarregado">Nome Encarregado de Educação:</label>
             <input type="text" id="nome" name="nome" placeholder="Insira o seu nome" required>
+            <br><br>
+            <label for="educando">Nome do Educando:</label>
+            <input type="text" id="nome" name="nome" placeholder="Nome do educando" required>
+            <br><br>
+            <label for="data">Data de Nascimento do Educando:</label>
+            <input type="date" id="data" name="data" placeholder="Insira a data de nascimento do seu educando" required>
             <br><br>
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" placeholder="Insira o seu email" required>
@@ -53,10 +74,14 @@
             <label for="mensagem">Mensagem:</label>
             <textarea id="mensagem" name="mensagem" placeholder="Escreva a sua mensagem" required></textarea>
             <br>
+            <button type="submit">Enviar</button>
+            <br>
+            <br>
+            <br>
             <small>Os dados fornecidos serão tratados apenas para efeitos de inscrição/ contacto, conforme a nossa <a
                     href=privacidade.html>Política de Privacidade</a></small>
             <br>
-            <button type="submit">Enviar</button>
+
         </form>
     </div>
 

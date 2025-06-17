@@ -47,14 +47,23 @@ function confirmCustom(message, yesText, noText) {
 function startHelp() {
     // Lista de elementos que a mascote deve destacar
     const elements = [
-        { id: "btn-menu", message: "Here you can open the menu." },
-        { id: "btn-pt", message: "Changes the language to Portuguese." },
-        { id: "btn-eng", message: "Changes the language to English." },
-        { id: "video_escola", message: "Here you can watch a video of the Kindergarten." },
-        { id: "galleryImg", message: "Here you can see a photo gallery of the Kindergarten." },
-        { id: "contact-info", message: "Here you can find the contacts of the Kindergarten." },
-        { id: "mapa", message: "Here you can see the location of the Kindergarten on the map and get the directions" },
-        { id: "reviews", message: "Here you can leave a review about your experience with the Kindergarten and see reviews from other people." }
+        { selector: ".btn-menu", message: "Here you can open the menu." },
+        { selector: "#btn-pt", message: "Changes the language to Portuguese." },
+        { selector: "#btn-eng", message: "Changes the language to English." },
+        { selector: "#video_escola", message: "Here you can watch a video of the Kindergarten." },
+        { selector: "#galleryImg", message: "Here you can see a photo gallery of the Kindergarten." },
+        { selector: "#contact-info", message: "Here you can find the contacts of the Kindergarten." },
+        { selector: "#ementa", message: "Here you can see the monthly menu." },
+        { selector: "#missao", message: "Here we have what is our mission as a Kindergarten" },
+        { selector: "#mapa", message: "Here you can see the location of the Kindergarten on the map and get the directions" },
+        { selector: "#reviews", message: "Here you can leave a review about your experience with the Kindergarten" },
+        { selector: "review-list", message: "Here you can see the reviews left by other parents." },
+        { selector: "#curriculares", message: "Here you can see the activities we have included at the Kindergarten." },
+        { selector: "#extracurriculares", message: "Here you can see the extra activities we have available at the Kindergarten" },
+        { selector: "#inscricao", message: "Here you can submit your aplication." },
+        { selector: "#contactos", message: "At this section you can see the contacts information of the Estrelinha Amarela Kindergarten." },
+        { selector: ".reviews", message: "In this section you can leave a review of your experience at the Kindergarten." },
+        { selector: ".review-list", message: "Here you can see all the reviews left from different parents." }
         // Adicione novos elementos aqui, seguindo o formato { id: "id-do-elemento", message: "Mensagem da mascote." }
     ];
 
@@ -66,7 +75,7 @@ function startHelp() {
 
     function nextElement() {
         if (indice < elements.length) {
-            const element = document.getElementById(elements[indice].id);
+            const element = document.querySelector(elements[indice].selector);
             if (!element) {
                 // Se o elemento não existir, pula para o próximo
                 indice++;
