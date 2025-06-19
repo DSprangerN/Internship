@@ -130,7 +130,21 @@
         <br>
     </div>
     <br>
+    <hr style="width: 70%;">
     <br>
+    <div id="familia">
+        <h2>Atividades em Família</h2>
+        <p>
+            No Jardim de Infância <strong>A Estrelinha Amarela</strong>, acreditamos que os melhores momentos são
+            vividos em família.
+            Por isso, promovemos atividades que podem ser partilhadas em casa, fortelecendo os laços afetivos e
+            proporcionando experiências enriquecedoras para todos.
+            Queremos que cada família leve um pouco da nossa alegria e criatividade para o seu lar!
+        </p>
+        <div class="gallery-container" id="gallery-familia">
+            <button id="download-button" class="btn btn-primary" disabled>Download</button>
+        </div>
+    </div>
 
     <script src="../../js/scripts.js"></script>
     <img id="mascote" src="../../img/mascote.png" alt="Mascote" class="mascote" style="display:none;">
@@ -157,6 +171,90 @@
             current = (current + 1) % images.length;
             galleryImg.src = images[current];
         };
+    </script>
+    <script>
+        const imgFolder = '../../img/download/';
+        const galleryImages = [
+            'carro.jpg',
+            'carro1.jpg',
+            'carro2.jpg',
+            'carro3.jpg',
+            'carro4.jpg',
+            'carro5.jpg',
+            'heroi1.jpg',
+            'heroi2.jpg',
+            'heroi3.jpg',
+            'heroi4.jpg',
+            'heroi5.jpg',
+            'heroi6.jpg',
+            'heroi7.jpg',
+            'heroi8.jpg',
+            'princess1.jpg',
+            'princess2.jpg',
+            'princess3.jpg',
+            'princess4.jpg',
+            'princess5.jpg',
+            'princess6.jpg',
+            'princess7.jpg',
+            'princess8.jpg'
+        ];
+
+        const galleryDiv = document.getElementByID('gallery-familia');
+        let galleryHTML = '<div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">';
+            galleryImages.forEach((img, idx) => {
+                galleryHTML += `
+                <div style="text-align: center;">
+                    <label style="display:block;cursor:pointer;">
+                        <input type="checkbox" class="img-checkbox" value="${img}" style="margin-bottom:5px;">
+                        <img src="${imgFolder + img}" alt="Atividade em Família ${idx+1}" style="width: 150px; height: 100px; object-fit: cover; border-radius: 10px; border: 2px solid #5a9bd3;">
+                    </label>
+                </div>`;
+            });
+            galleryHTML += '</div>';
+
+            galleryHTML += `
+            <div style="margin-top:10px;">
+                <label>
+                    <input type="checkbox" id="select-all-imgs" style="margin-right:5px;">
+                    Selecionar todas as imagens
+                </label>
+            </div>
+        `;
+        galleryDiv.innerHTML = galleryHTML;
+        
+        //Seleção e download
+        const checkboxes = galleryDiv.querySelectorAll('.img-checbocx');
+        const selectAll = document.getElementById('select-all-imgs');
+        const downloadBtn = document.getElementById('download-selected');
+
+        function updateDownloadBtn() {
+            const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
+            downloadBtn.disabled = !anyChecked;
+        }
+
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', updateDownloadBtn);
+        });
+
+        selectAll.addEventListener('change', function() {
+            checkboxes.forEach(cb => cb.checked = selectAll.checked);
+            updateDownloadBtn();
+        });
+
+        downloadBtn.addEventListener('click', function() {
+            const selected = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
+            if (selected.length === 0) return;
+
+            // Download de várias imagens abre uma aba para cada imagem
+            selected.forEach(img => {
+                const link = document.createElement('a');
+                link.href = imgFolder + img;
+                link.download = img;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+        });
     </script>
 </body>
 

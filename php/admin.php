@@ -94,8 +94,8 @@ if (!empty($colaboradoresSelecionados)) {
     while ($row = mysqli_fetch_assoc($result)) {
         $entrada = $row['Hora_Entrada'];
         $saida = $row['Hora_Saida'];
-        $entrada_dt = DateTime::createFromFormat('H:i:s', $entrada);
-        $saida_dt = DateTime::createFromFormat('H:i:s', $saida);
+        $entrada_dt = (!empty($entrada)) ? new DateTime($entrada) : null;
+        $saida_dt = (!empty($saida)) ? new DateTime($saida) : null;
         $intervalo = $entrada_dt && $saida_dt ? $entrada_dt->diff($saida_dt) : null;
         $horas_trabalhadas = $intervalo ? ($intervalo->h + $intervalo->i / 60) : 0;
 
@@ -375,7 +375,7 @@ if (isset($_POST['upload_ementa']) && isset($_FILES['ementa_img'])) {
 <body>
     <div class="container mt-3">
         <div class="d-flex justify-content-start">
-            <a href="../Login.html" class="btn btn-danger logout-button">Log Out</a>
+            <a href="logout.php" class="btn btn-danger logout-button">Log Out</a>
         </div>
         <img src="../img/Logo_Estrelinha-Amarela.png" alt="Logo Estrelinha Amarela" height="200px" width="200px">
     </div>
@@ -463,10 +463,10 @@ if (isset($_POST['upload_ementa']) && isset($_FILES['ementa_img'])) {
                             $saldo_total += $linha['saldo'];
                         ?>
                             <tr>
-                                <td><?= $linha['colaborador'] ?></td>
-                                <td><?= $linha['data'] ?></td>
-                                <td><?= isset($linha['entrada']) ? substr($linha['entrada'], 0, 5) : '-' ?></td>
-                                <td><?= isset($linha['saida']) ? substr($linha['saida'], 0, 5) : '-' ?></td>
+                                <td><?= htmlspecialchars($linha['colaborador']) ?></td>
+                                <td><?= htmlspecialchars($linha['data']) ?></td>
+                                <td><?= isset($linha['entrada']) && $linha['entrada'] ? date('H:i', strtotime($linha['entrada'])) : '-' ?></td>
+                                <td><?= isset($linha['saida']) && $linha['saida'] ? date('H:i', strtotime($linha['saida'])) : '-' ?></td>
                                 <td><?= number_format($linha['horas'] ?? 0, 2, ',', '') ?></td>
                                 <td><?= number_format($linha['saldo'] ?? 0, 2, ',', '') ?></td>
                             </tr>

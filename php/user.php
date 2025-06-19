@@ -1,23 +1,33 @@
 <?php
-session_start(); // Inicia a sessão
-include 'ligaBD.php'; // Inclui o ficheiro de ligação à base de dados
+session_start();
+include 'ligaBD.php';
 
+$mensagem = '';
+$mensagem_tipo = ''; // success, danger, warning, info
+
+// Função para evitar SQL duplicado ao buscar registo do dia
+function obter_registo_dia($liga, $user_id, $data)
+{
+    $query = "SELECT Hora_Entrada, Hora_Saida FROM registo_horas WHERE id_user = ? AND Data = ?";
+    $stmt = mysqli_prepare($liga, $query);
+    mysqli_stmt_bind_param($stmt, "is", $user_id, $data);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    return mysqli_fetch_assoc($result);
+}
 
 // Verifica se o utilizador está logado
 if (!isset($_SESSION['username']) || !isset($_SESSION['user_id'])) {
-    echo "<script>
-        alert('Por favor, faça login primeiro.');
-        window.location.href='../php/Login.php';
-        </script>";
+    $_SESSION['mensagem'] = 'Por favor, faça login primeiro.';
+    $_SESSION['mensagem_tipo'] = 'warning';
+    header('Location: ../php/Login.php');
     exit();
 }
 
 $user_id = $_SESSION['user_id'];
 
-
 // Verifica se o utilizador está na rede Wi-Fi permitida (IP Local)
-// Verificação em php por ser mais seguro no servidor que no cliente
-$allowed_public_ip = '95.92.13.189'; // Subsituir pelo IP da escola
+$allowed_public_ip = '95.92.13.189'; // Substituir pelo IP da escola
 $userIP = $_SERVER['REMOTE_ADDR'];
 
 if (
@@ -25,15 +35,17 @@ if (
     $userIP !== '127.0.0.1' &&
     $userIP !== '::1'
 ) {
-    echo "<script>
-        alert('Erro ao verificar o Wifi. Tente novamente mais tarde.');
-        window.location.href = '../Login.html';
-        </script>";
+    $_SESSION['mensagem'] = 'Erro ao verificar a ligação Wi-Fi. Tente novamente mais tarde.';
+    $_SESSION['mensagem_tipo'] = 'danger';
+    header('Location: ../Login.html');
     exit();
 }
 
-// Definir o fuso horário para Portugal
 date_default_timezone_set('Europe/Lisbon');
+
+// --- Tabela de registo instantâneo ---
+$mostrar_registo_instantaneo = false;
+$registo_instantaneo = [];
 
 // Registo de Horas
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -42,36 +54,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Entrada
     if (isset($_POST['registar_entrada'])) {
-        // Verificar se já existe regist0 para o dia
-        $query = "SELECT * FROM registo_horas WHERE id_user = ? AND DATA = ?";
+        $query = "SELECT * FROM registo_horas WHERE id_user = ? AND Data = ?";
         $stmt = mysqli_prepare($liga, $query);
         mysqli_stmt_bind_param($stmt, "is", $user_id, $data);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
 
         if (mysqli_num_rows($result) > 0) {
-            echo "<script>
-                alert('Já existe uma entrada registada para este dia.');
-                </script>";
+            $mensagem = 'Já existe uma entrada registada para este dia.';
+            $mensagem_tipo = 'warning';
         } else {
             $query = "INSERT INTO registo_horas (id_user, Data, Hora_Entrada) VALUES (?, ?, ?)";
             $stmt = mysqli_prepare($liga, $query);
             mysqli_stmt_bind_param($stmt, "iss", $user_id, $data, $hora_atual);
             if (mysqli_stmt_execute($stmt)) {
-                echo "<script>
-                    alert('Entrada registada com sucesso.');
-                    </script>";
+                $mensagem = 'Entrada registada com sucesso.';
+                $mensagem_tipo = 'success';
             } else {
-                echo "<script>
-                    alert('Erro ao registar entrada.');
-                    </script>";
+                $mensagem = 'Erro ao registar entrada.';
+                $mensagem_tipo = 'danger';
             }
         }
+        // Buscar registo atualizado para mostrar na tabela
+        $row = obter_registo_dia($liga, $user_id, $data);
+        $mostrar_registo_instantaneo = true;
+        $registo_instantaneo = [
+            'data' => $data,
+            'entrada' => $row['Hora_Entrada'] ? htmlspecialchars(date('H:i', strtotime($row['Hora_Entrada']))) : '',
+            'saida' => $row['Hora_Saida'] ? htmlspecialchars(date('H:i', strtotime($row['Hora_Saida']))) : ''
+        ];
     }
 
-    // Registar Saída
+    // Saída
     if (isset($_POST['registar_saida'])) {
-        // Verificar se já existe registo de saída
         $query = "SELECT * FROM registo_horas WHERE id_user = ? AND Data = ?";
         $stmt = mysqli_prepare($liga, $query);
         mysqli_stmt_bind_param($stmt, "is", $user_id, $data);
@@ -79,75 +94,112 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = mysqli_stmt_get_result($stmt);
 
         if (mysqli_num_rows($result) == 0) {
-            echo "<script>
-                alert('Registe primeiro a entrada!');</script>";
+            $mensagem = 'Por favor, registe a entrada antes de continuar.';
+            $mensagem_tipo = 'warning';
         } else {
             $query = "UPDATE registo_horas SET Hora_Saida = ? WHERE id_user = ? AND Data = ?";
             $stmt = mysqli_prepare($liga, $query);
             mysqli_stmt_bind_param($stmt, "sis", $hora_atual, $user_id, $data);
             if (mysqli_stmt_execute($stmt)) {
-                echo "<script>
-                    alert('Saída registada com sucesso!');
-                    </script>";
+                $mensagem = 'Saída registada com sucesso!';
+                $mensagem_tipo = 'success';
             } else {
-                echo "<script>
-                    alert('Erro ao registar a saída.');
-                    </script>";
+                $mensagem = 'Erro ao registar a saída.';
+                $mensagem_tipo = 'danger';
             }
         }
-    }
-}
-// Banco de Horas
-$banco_horas = [];
-if (isset($_GET['mes'])) {
-    $mes = $_GET['mes'];
-    $ano = $_GET['ano'];
-    $query = "SELECT Data, Hora_Entrada, Hora_Saida FROM registo_horas WHERE id_user = ? AND MONTH(Data) = ? AND YEAR(Data) = ?";
-    $stmt = mysqli_prepare($liga, $query);
-    mysqli_stmt_bind_param($stmt, "iii", $user_id, $mes, $ano);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-
-    while ($row = mysqli_fetch_assoc($result)) {
-        $entrada = $row['Hora_Entrada'];
-        $saida = $row['Hora_Saida'];
-        $ano = $row['Data'];
-
-        //Horas trabalhadas
-        $entrada_dt = $entrada ? new Datetime($entrada) : null;
-        $saida_dt = $saida ? new DateTime($saida) : null;
-        $intervalo = ($entrada_dt && $saida_dt) ? $entrada_dt->diff($saida_dt) : null;
-
-        //Se houver intervalo, subtrai 1h
-        if ($intervalo) {
-            $total_minutos = ($intervalo->h * 60 + $intervalo->i + floor($intervalo->s / 60)) - 60; // 60min ou 1h de almoço
-            if ($total_minutos < 0) $total_minutos = 0;
-
-            $total_minutos_arredondado = ceil($total_minutos / 30) * 30;
-
-            $horas_trabalhadas_h = floor($total_minutos / 60);
-            $horas_trabalhadas_m = $total_minutos_arredondado % 60;
-            $horas_trabalhadas_str = sprintf('%dh%02d', $horas_trabalhadas_h, $horas_trabalhadas_m);
-            //Saldo em decimal
-            $horas_trabalhadas_decimal = $total_minutos_arredondado / 60;
-            $saldo = $horas_trabalhadas_decimal - 8;
-        } else {
-            $horas_trabalhadas_str = '0h00';
-            $saldo = 0;
-        }
-        $banco_horas[] = [
-            'data' => $row['Data'],
-            'entrada' => $entrada,
-            'saida' => $saida,
-            'horas' => $horas_trabalhadas_str,
-            'saldo' => $saldo
+        // Buscar registo atualizado para mostrar na tabela
+        $row = obter_registo_dia($liga, $user_id, $data);
+        $mostrar_registo_instantaneo = true;
+        $registo_instantaneo = [
+            'data' => $data,
+            'entrada' => ($row && $row['Hora_Entrada']) ? htmlspecialchars(date('H:i', strtotime($row['Hora_Entrada']))) : '',
+            'saida' => ($row && $row['Hora_Saida']) ? htmlspecialchars(date('H:i', strtotime($row['Hora_Saida']))) : ''
         ];
     }
 }
 
+// --- Banco de Horas ---
+$banco_horas = [];
+$mostrar_banco_horas = false;
+$erro_intervalo = null;
+$ano_atual = date('Y');
+$meses = [
+    1 => 'Janeiro',
+    2 => 'Fevereiro',
+    3 => 'Março',
+    4 => 'Abril',
+    5 => 'Maio',
+    6 => 'Junho',
+    7 => 'Julho',
+    8 => 'Agosto',
+    9 => 'Setembro',
+    10 => 'Outubro',
+    11 => 'Novembro',
+    12 => 'Dezembro'
+];
+
+if (
+    isset($_GET['ano_inicio']) && isset($_GET['mes_inicio']) &&
+    isset($_GET['ano_fim']) && isset($_GET['mes_fim'])
+) {
+    $ano_inicio = $_GET['ano_inicio'];
+    $mes_inicio = $_GET['mes_inicio'];
+    $ano_fim = $_GET['ano_fim'];
+    $mes_fim = $_GET['mes_fim'];
+
+    $data_inicio = sprintf('%04d-%02d-01', $ano_inicio, $mes_inicio);
+    $ultimo_dia = date('t', strtotime("$ano_fim-$mes_fim-01"));
+    $data_fim = sprintf('%04d-%02d-%02d', $ano_fim, $mes_fim, $ultimo_dia);
+
+    // Validação do intervalo
+    if (strtotime($data_inicio) > strtotime($data_fim)) {
+        $erro_intervalo = "O intervalo de datas é inválido.";
+    } else {
+        $query = "SELECT Data, Hora_Entrada, Hora_Saida FROM registo_horas 
+                  WHERE id_user = ? AND Data BETWEEN ? AND ? ORDER BY Data";
+        $stmt = mysqli_prepare($liga, $query);
+        mysqli_stmt_bind_param($stmt, "iss", $user_id, $data_inicio, $data_fim);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            $entrada = $row['Hora_Entrada'];
+            $saida = $row['Hora_Saida'];
+
+            $entrada_dt = $entrada ? new DateTime($entrada) : null;
+            $saida_dt = $saida ? new DateTime($saida) : null;
+            $intervalo = ($entrada_dt && $saida_dt) ? $entrada_dt->diff($saida_dt) : null;
+
+            if ($intervalo) {
+                $total_minutos = ($intervalo->h * 60 + $intervalo->i + floor($intervalo->s / 60)) - 60;
+                if ($total_minutos < 0) $total_minutos = 0;
+                $total_minutos_arredondado = ceil($total_minutos / 30) * 30;
+                $horas_trabalhadas_h = floor($total_minutos / 60);
+                $horas_trabalhadas_m = $total_minutos_arredondado % 60;
+                $horas_trabalhadas_str = sprintf('%dh%02d', $horas_trabalhadas_h, $horas_trabalhadas_m);
+                $horas_trabalhadas_decimal = $total_minutos_arredondado / 60;
+                $saldo = $horas_trabalhadas_decimal - 8;
+            } else {
+                $horas_trabalhadas_str = '0h00';
+                $saldo = 0;
+            }
+            $banco_horas[] = [
+                'data' => $row['Data'],
+                'entrada' => $entrada,
+                'saida' => $saida,
+                'horas' => $horas_trabalhadas_str,
+                'saldo' => $saldo
+            ];
+        }
+        $mostrar_banco_horas = true;
+    }
+}
+
+mysqli_close($liga);
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 
 <head>
     <meta charset="UTF-8">
@@ -165,9 +217,7 @@ if (isset($_GET['mes'])) {
     @media (max-width: 768px) {
         body {
             width: 100%;
-            /* Ocupa toda a largura da tela em dispositivos menores */
             margin: 0 auto;
-            /* Centraliza o elemento */
         }
     }
 
@@ -179,25 +229,18 @@ if (isset($_GET['mes'])) {
         overflow-x: hidden;
     }
 
-    /* Estilo para o cabeçalho */
     header {
         position: relative;
         padding: 20px 0;
     }
 
-    /* Estilo para o título principal (h1) */
     h1 {
         margin: auto;
-        /* Centraliza o título horizontalmente */
         text-align: center;
-        /* Centraliza o texto */
         font-size: 36px;
-        /* Define o tamanho da fonte */
         color: #003366;
-        /* Define a cor do texto em azul escuro */
     }
 
-    /* Estilo para o título principal */
     h2 {
         font-size: 36px;
         color: #003366;
@@ -206,9 +249,20 @@ if (isset($_GET['mes'])) {
 </style>
 
 <body>
+
+    <?php if (isset($_SESSION['mensagem']) && isset($_SESSION['mensagem_tipo'])): ?>
+        <div class="alert alert-<?= $_SESSION['mensagem_tipo'] ?> alert-dismissible fade show" role="alert">
+            <?= htmlspecialchars($_SESSION['mensagem']) ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+        </div>
+    <?php
+        unset($_SESSION['mensagem'], $_SESSION['mensagem_tipo']);
+    endif;
+    ?>
+
     <div class="container mt-3">
         <div class="d-flex justify-content-start">
-            <a href="../Login.html" class="btn btn-danger logout-button">Log Out</a>
+            <a href="logout.php" class="btn btn-danger logout-button">Log Out</a>
         </div>
     </div>
     <img src="../img/Logo_Estrelinha-Amarela.png" alt="Logo Estrelinha Amarela" height="200px" width="200px">
@@ -230,41 +284,71 @@ if (isset($_GET['mes'])) {
             </div>
         </form>
 
+        <!-- Tabela de registo instantâneo -->
+        <?php if ($mostrar_registo_instantaneo && !empty($registo_instantaneo)): ?>
+            <div class="mb-4">
+                <h4>Registo do Dia</h4>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Dia</th>
+                            <th>Hora de Entrada</th>
+                            <th>Hora de Saída</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><?= htmlspecialchars($registo_instantaneo['data']) ?></td>
+                            <td><?= $registo_instantaneo['entrada'] ?></td>
+                            <td><?= $registo_instantaneo['saida'] ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        <?php endif; ?>
+
         <div class="mb-4">
             <form method="get" class="row g-2 align-items-end">
                 <div class="col-auto">
-                    <label for="mes" class="form-label">Mês</label>
-                    <select id="mes" name="mes" class="form-control">
+                    <label for="ano_inicio" class="form-label">Ano Início</label>
+                    <select id="ano_inicio" name="ano_inicio" class="form-select">
                         <?php
-                        $meses = [
-                            1 => 'Janeiro',
-                            2 => 'Fevereiro',
-                            3 => 'Março',
-                            4 => 'Abril',
-                            5 => 'Maio',
-                            6 => 'Junho',
-                            7 => 'Julho',
-                            8 => 'Agosto',
-                            9 => 'Setembro',
-                            10 => 'Outubro',
-                            11 => 'Novembro',
-                            12 => 'Dezembro'
-                        ];
+                        $ano_atual = date('Y');
+                        for ($a = $ano_atual - 0; $a <= $ano_atual + 30; $a++): ?>
+                            <option value="<?= $a ?>" <?= (isset($_GET['ano_inicio']) && $_GET['ano_inicio'] == $a) ? 'selected' : '' ?>>
+                                <?= $a ?>
+                            </option>
+                        <?php endfor; ?>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <label for="mes_inicio" class="form-label">Mês Início</label>
+                    <select id="mes_inicio" name="mes_inicio" class="form-control">
+                        <?php
                         for ($m = 1; $m <= 12; $m++): ?>
-                            <option value="<?= $m ?>" <?= (isset($_GET['mes']) && $_GET['mes'] == $m) ? 'selected' : '' ?>>
+                            <option value="<?= $m ?>" <?= (isset($_GET['mes_inicio']) && $_GET['mes_inicio'] == $m) ? 'selected' : '' ?>>
                                 <?= $meses[$m] ?>
                             </option>
                         <?php endfor; ?>
                     </select>
                 </div>
                 <div class="col-auto">
-                    <label for="ano" class="form-label">Ano</label>
-                    <select name="ano" id="ano" class="form-select">
+                    <label for="ano_fim" class="form-label">Ano Fim</label>
+                    <select id="ano_fim" name="ano_fim" class="form-select">
                         <?php
-                        $ano_atual = date('Y');
                         for ($a = $ano_atual - 0; $a <= $ano_atual + 30; $a++): ?>
-                            <option value="<?= $a ?>" <?= (isset($_GET['ano']) && $_GET['ano'] == $a) ? 'selected' : '' ?>>
+                            <option value="<?= $a ?>" <?= (isset($_GET['ano_fim']) && $_GET['ano_fim'] == $a) ? 'selected' : '' ?>>
                                 <?= $a ?>
+                            </option>
+                        <?php endfor; ?>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <label for="mes_fim" class="form-label">Mês Fim</label>
+                    <select id="mes_fim" name="mes_fim" class="form-control">
+                        <?php for ($m = 1; $m <= 12; $m++): ?>
+                            <option value="<?= $m ?>" <?= (isset($_GET['mes_fim']) && $_GET['mes_fim'] == $m) ? 'selected' : '' ?>>
+                                <?= $meses[$m] ?>
                             </option>
                         <?php endfor; ?>
                     </select>
@@ -275,46 +359,58 @@ if (isset($_GET['mes'])) {
             </form>
         </div>
 
-        <div id="banco_horas" class="mb-4">
-            <h3>Banco de Horas</h3>
-            <?php if (!empty($banco_horas)): ?>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Data</th>
-                            <th>Entrada</th>
-                            <th>Saída</th>
-                            <th>Horas Trabalhadas</th>
-                            <th>Saldo do Dia</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $saldo_total = 0;
-                        foreach ($banco_horas as $linha):
-                            $saldo_total += $linha['saldo'];
-                        ?>
+        <?php if (isset($erro_intervalo)): ?>
+            <div class="alert alert-danger"><?= htmlspecialchars($erro_intervalo) ?></div>
+        <?php endif; ?>
+
+        <?php if ($mostrar_banco_horas): ?>
+            <div id="banco_horas" class="mb-4">
+                <h3>Banco de Horas</h3>
+                <?php if (!empty($banco_horas)): ?>
+                    <table class="table table-bordered">
+                        <thead>
                             <tr>
-                                <td><?= $linha['data'] ?></td>
-                                <td><?= isset($linha['entrada']) ? date('H:i', strtotime($linha['entrada'])) : '-' ?></td>
-                                <td><?= isset($linha['saida']) ? date('H:i', strtotime($linha['saida'])) : '-' ?></td>
-                                <td><?= $linha['horas'] ?></td>
-                                <td><?= number_format($linha['saldo'] ?? 0, 2, ',', '') ?></td>
+                                <th>Data</th>
+                                <th>Entrada</th>
+                                <th>Saída</th>
+                                <th>Horas Trabalhadas</th>
+                                <th>Saldo do Dia</th>
                             </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th colspan="4">Saldo Total do Mês</th>
-                            <th><?= number_format($saldo_total ?? 0, 2, ',', '') ?></th>
-                        </tr>
-                    </tfoot>
-                </table>
-            <?php else: ?>
-                <p>Selecione um mês e ano para ver os seus registos</p>
-            <?php endif; ?>
-        </div>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $saldo_total = 0;
+                            foreach ($banco_horas as $linha):
+                                $saldo_total += $linha['saldo'];
+                            ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($linha['data']) ?></td>
+                                    <td><?= isset($linha['entrada']) && $linha['entrada'] ? htmlspecialchars(date('H:i', strtotime($linha['entrada']))) : '' ?></td>
+                                    <td><?= isset($linha['saida']) && $linha['saida'] ? htmlspecialchars(date('H:i', strtotime($linha['saida']))) : '' ?></td>
+                                    <td><?= htmlspecialchars($linha['horas']) ?></td>
+                                    <td><?= number_format($linha['saldo'] ?? 0, 2, ',', '') ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="4">Saldo Total do Período</th>
+                                <th><?= number_format($saldo_total ?? 0, 2, ',', '') ?></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                <?php else: ?>
+                    <p>Não existem registos para o intervalo selecionado.</p>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
     </div>
+
+    <footer>
+        <p>
+            <a href="../HTML/PT/privacidade.html">Política de Privacidade</a>
+        </p>
+    </footer>
 
     <script>
         $(document).ready(function() {
@@ -323,12 +419,20 @@ if (isset($_GET['mes'])) {
                 autoclose: true,
                 todayHighlight: true
             });
+
+            // Validação do intervalo de datas no formulário do banco de horas
+            $('form[method="get"]').on('submit', function(e) {
+                const anoInicio = parseInt($('#ano_inicio').val());
+                const mesInicio = parseInt($('#mes_inicio').val());
+                const anoFim = parseInt($('#ano_fim').val());
+                const mesFim = parseInt($('#mes_fim').val());
+                if (anoInicio > anoFim || (anoInicio === anoFim && mesInicio > mesFim)) {
+                    alert('O intervalo de datas é inválido.');
+                    e.preventDefault();
+                }
+            });
         });
     </script>
-
-    <footer>
-        <a href="../HTML/PT/privacidade.html">Política de Privacidade</a>
-    </footer>
 </body>
 
 </html>
