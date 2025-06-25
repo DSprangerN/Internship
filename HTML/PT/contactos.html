@@ -81,6 +81,7 @@
     <div class="review-list" style="margin: auto; width: 100%; max-width: 800px;">
         <h3>Reviews</h3>
         <ul id="reviews"></ul>
+        <div id="paginacao" style="text-align:center; margin-top:10px"></div>
         <p>
             Veja mais reviews
             <a
@@ -91,6 +92,43 @@
     <script src="../../js/scripts.js"></script>
 
     <script>
+        let allReviews = [];
+        const REVIEWS_PER_PAGE = 5;
+        let currentPage = 1;
+
+        // Função para criar páginas de reviews
+        function renderReviews(page = 1) {
+            const reviewsList = document.getElementById("reviews");
+            const paginationDiv = document.getElementById("paginacao");
+            reviewsList.innerHTML = ""; // Limpa a lista antes de renderizar
+
+            const start = (page - 1) * REVIEWS_PER_PAGE;
+            const end = start + REVIEWS_PER_PAGE;
+            const paginatedReviews = allReviews.slice(start, end);
+
+            paginatedReviews.forEach(review => {
+                const li = document.createElement("li");
+                li.innerHTML = `<strong>${review.nome}</strong> <span style="color: #888; font-size: 0.9em;">(${new Date(review.created_at).toLocaleString()})</span><br>${review.review}`;
+                reviewsList.appendChild(li);
+            });
+
+            // Páginas
+            const totalPages = Math.ceil(allReviews.length / REVIEWS_PER_PAGE);
+            let paginationHTML = "";
+            if (totalPages > 1) {
+                for (let i = 1; i <= totalPages; i++) {
+                    paginationHTML += `<button onclick="goToPage(${i})" ${i === page ? 'style="font-weight:bold;" disabled' : ''}>${i}</button>`;
+                }
+            }
+            paginationDiv.innerHTML = paginationHTML;
+        }
+
+        // Navegação de páginas
+        window.goToPage = function (page) {
+            currentPage = page;
+            renderReviews(page);
+        };
+
         // Função para carregar as reviews do servidor
         async function loadReviews() {
             const reviewsList = document.getElementById("reviews");
@@ -104,14 +142,9 @@
                 if (!response.ok) {
                     throw new Error(`Erro na requisição: ${response.statusText}`);
                 }
-                const reviews = await response.json();
-
-                reviewsList.innerHTML = ""; // Limpa a lista antes de renderizar
-                reviews.forEach(review => {
-                    const li = document.createElement("li");
-                    li.innerHTML = `<strong>${review.nome}</strong> <span style="color: #888; font-size: 0.9em;">(${new Date(review.created_at).toLocaleString()})</span><br>${review.review}`;
-                    reviewsList.appendChild(li);
-                });
+                allReviews = await response.json();
+                allReviews.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+                renderReviews(currentPage);
             } catch (error) {
                 console.error("Erro ao carregar as reviews:", error);
             }
@@ -157,6 +190,7 @@
                     msgInput.value = "";
 
                     // Atualiza a lista de reviews
+                    currentPage = 1;
                     loadReviews();
                 }
             } catch (error) {

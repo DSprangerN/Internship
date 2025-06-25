@@ -15,6 +15,7 @@
         #atividades,
         #curriculares,
         #extracurriculares,
+        #familia,
         .gallery-container {
             border: 1px solid #5a9bd3;
             border-radius: 50px 50px 50px 50px;
@@ -145,6 +146,8 @@
             <button id="download-button" class="btn btn-primary" disabled>Download</button>
         </div>
     </div>
+    <br>
+    <br>
 
     <script src="../../js/scripts.js"></script>
     <img id="mascote" src="../../img/mascote.png" alt="Mascote" class="mascote" style="display:none;">
@@ -199,33 +202,36 @@
             'princess8.jpg'
         ];
 
-        const galleryDiv = document.getElementByID('gallery-familia');
+        const galleryDiv = document.getElementById('gallery-familia');
         let galleryHTML = '<div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">';
-            galleryImages.forEach((img, idx) => {
-                galleryHTML += `
+        galleryImages.forEach((img, idx) => {
+            galleryHTML += `
                 <div style="text-align: center;">
                     <label style="display:block;cursor:pointer;">
                         <input type="checkbox" class="img-checkbox" value="${img}" style="margin-bottom:5px;">
-                        <img src="${imgFolder + img}" alt="Atividade em Família ${idx+1}" style="width: 150px; height: 100px; object-fit: cover; border-radius: 10px; border: 2px solid #5a9bd3;">
+                        <img src="${imgFolder + img}" alt="Atividade em Família ${idx + 1}" style="width: 150px; height: 100px; object-fit: cover; border-radius: 10px; border: 2px solid #5a9bd3;">
                     </label>
                 </div>`;
-            });
-            galleryHTML += '</div>';
+        });
+        galleryHTML += '</div>';
 
-            galleryHTML += `
+        galleryHTML += `
             <div style="margin-top:10px;">
                 <label>
                     <input type="checkbox" id="select-all-imgs" style="margin-right:5px;">
                     Selecionar todas as imagens
                 </label>
             </div>
+            <div style="margin-top:15px;">
+                <button id="download-button" class="btn btn-primary" disabled>Download</button>
+            </div>
         `;
         galleryDiv.innerHTML = galleryHTML;
-        
+
         //Seleção e download
-        const checkboxes = galleryDiv.querySelectorAll('.img-checbocx');
+        const downloadBtn = document.getElementById('download-button');
+        const checkboxes = galleryDiv.querySelectorAll('.img-checkbox');
         const selectAll = document.getElementById('select-all-imgs');
-        const downloadBtn = document.getElementById('download-selected');
 
         function updateDownloadBtn() {
             const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
@@ -236,12 +242,12 @@
             cb.addEventListener('change', updateDownloadBtn);
         });
 
-        selectAll.addEventListener('change', function() {
+        selectAll.addEventListener('change', function () {
             checkboxes.forEach(cb => cb.checked = selectAll.checked);
             updateDownloadBtn();
         });
 
-        downloadBtn.addEventListener('click', function() {
+        downloadBtn.addEventListener('click', function () {
             const selected = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
             if (selected.length === 0) return;
 

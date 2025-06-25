@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atividades</title>
+    <title>Activities</title>
     <link rel="stylesheet" href="../../CSS/style.css">
     <link rel="icon" type="image/x-icon" href="../../img/favicon.ico">
     <style>
@@ -15,6 +15,7 @@
         #atividades,
         #curriculares,
         #extracurriculares,
+        #familia,
         .gallery-container {
             border: 1px solid #5a9bd3;
             border-radius: 50px 50px 50px 50px;
@@ -125,6 +126,22 @@
         <br>
     </div>
     <br>
+    <hr style="width: 70%;">
+    <br>
+    <div id="familia">
+        <h2>Family Activities</h2>
+        <p>
+            At <strong>A Estrelinha Amarela Kindergarten</strong>, we believe that the best moments are lived as a
+            family.
+            That’s why we promote activities that can be shared at home, strengthening emotional bonds and providing
+            enriching experiences for everyone.
+            We want each family to take a little of our joy and creativity into their home!
+        </p>
+        <div class="gallery-container" id="gallery-familia">
+            <button id="download-button" class="btn btn-primary" disabled>Download</button>
+        </div>
+    </div>
+    <br>
     <br>
 
     <script src="../../js/scriptEN.js"></script>
@@ -152,6 +169,94 @@
             current = (current + 1) % images.length;
             galleryImg.src = images[current];
         };
+    </script>
+
+    <script>
+        const imgFolder = '../../img/download/';
+        const galleryImages = [
+            'carro.jpg',
+            'carro1.jpg',
+            'carro2.jpg',
+            'carro3.jpg',
+            'carro4.jpg',
+            'carro5.jpg',
+            'heroi1.jpg',
+            'heroi2.jpg',
+            'heroi3.jpg',
+            'heroi4.jpg',
+            'heroi5.jpg',
+            'heroi6.jpg',
+            'heroi7.jpg',
+            'heroi8.jpg',
+            'princess1.jpg',
+            'princess2.jpg',
+            'princess3.jpg',
+            'princess4.jpg',
+            'princess5.jpg',
+            'princess6.jpg',
+            'princess7.jpg',
+            'princess8.jpg'
+        ];
+
+        const galleryDiv = document.getElementById('gallery-familia');
+        let galleryHTML = '<div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">';
+        galleryImages.forEach((img, idx) => {
+            galleryHTML += `
+                <div style="text-align: center;">
+                    <label style="display:block;cursor:pointer;">
+                        <input type="checkbox" class="img-checkbox" value="${img}" style="margin-bottom:5px;">
+                        <img src="${imgFolder + img}" alt="Atividade em Família ${idx + 1}" style="width: 150px; height: 100px; object-fit: cover; border-radius: 10px; border: 2px solid #5a9bd3;">
+                    </label>
+                </div>`;
+        });
+        galleryHTML += '</div>';
+
+        galleryHTML += `
+            <div style="margin-top:10px;">
+                <label>
+                    <input type="checkbox" id="select-all-imgs" style="margin-right:5px;">
+                    Selecionar todas as imagens
+                </label>
+            </div>
+            <div style="margin-top:15px;">
+                <button id="download-button" class="btn btn-primary" disabled>Download</button>
+            </div>
+        `;
+        galleryDiv.innerHTML = galleryHTML;
+
+        //Seleção e download
+        const downloadBtn = document.getElementById('download-button');
+        const checkboxes = galleryDiv.querySelectorAll('.img-checkbox');
+        const selectAll = document.getElementById('select-all-imgs');
+
+        function updateDownloadBtn() {
+            const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
+            downloadBtn.disabled = !anyChecked;
+        }
+
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', updateDownloadBtn);
+        });
+
+        selectAll.addEventListener('change', function () {
+            checkboxes.forEach(cb => cb.checked = selectAll.checked);
+            updateDownloadBtn();
+        });
+
+        downloadBtn.addEventListener('click', function () {
+            const selected = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
+            if (selected.length === 0) return;
+
+            // Download de várias imagens abre uma aba para cada imagem
+            selected.forEach(img => {
+                const link = document.createElement('a');
+                link.href = imgFolder + img;
+                link.download = img;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+        });
     </script>
 </body>
 
