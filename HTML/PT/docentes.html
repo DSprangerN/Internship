@@ -7,47 +7,128 @@
     <title>Docentes</title>
     <link rel="stylesheet" href="../../CSS/style.css">
     <link rel="icon" type="image/x-icon" href="../../img/favicon.ico">
-</head>
+    <style>
+        #docentes {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            ;
+        }
 
-<header>
-    <!-- Botão para abrir o menu -->
-    <div class="menu-buttons">
-        <button type="button" id="btn-menu" class="btn-menu" onclick="openNav()">Menu</button>
-    </div>
+        #docentes>div {
+            flex: 1 1 0;
+            max-width: 350px;
+            min-width: 250px;
+            margin: 10px;
+        }
 
-    <div id="myTopnav" class="topnav">
-        <span class="closebtn" onclick="closeNav()">&times;</span>
-        <a href="../../indexPT.html">Home</a>
-        <a href="missao.html">Missão</a>
-        <a href="atividades.html">Atividades</a>
-        <a href="inscricao.html">Inscrição</a>
-        <a href="contactos.html">Contactos</a>
-    </div>
+        #docentes img {
+            width: 100%;
+            max-width: 180px;
+            height: auto;
+            display: block;
+            margin: 0 auto 15px auto;
+            border-radius: 20px;
+            object-fit: cover;
+        }
 
-    <div id="lang">
-        <button type="button" id="btn-pt" class="btn-pt"
-            onclick="window.location.href='../PT/docentes.html'">PT</button>
-        <button type="button" id="btn-eng" class="btn-eng" onclick="window.location.href='../EN/staff.html'">EN</button>
-    </div>
-    <img src="../../img/Logo_Estrelinha-Amarela.png" alt="Logo Estrelinha Amarela" height="200px" width="200px"
-        class="img-logo">
-    <br>
-</header>
+        @media (max-width: 768px) {
+            #docentes {
+                flex-direction: column;
+                align-items: center;
+                ;
+            }
+
+            #docentes>div {
+                max-width: 95vw;
+                min-width: 200px;
+            }
+        }
+    </style>
 
 <body>
-    <!-- Título principal -->
-    <h2 id="main-title">Docentes</h2>
+    <header>
+        <div class="header-bar">
+            <div class="menu-buttons">
+                <button type="button" id="btn-menu" class="btn-menu" onclick="openNav()"></button>
+            </div>
+            <div id="lang">
+                <button type="button" id="btn-pt" class="btn-pt"
+                    onclick="window.location.href='../PT/docentes.html'"></button>
+                <button type="button" id="btn-eng" class="btn-eng"
+                    onclick="window.location.href='../EN/staff.html'"></button>
+            </div>
+        </div>
+        <div id="myTopnav" class="topnav">
+            <span class="closebtn" onclick="closeNav()">&times;</span>
+            <a href="../../index.html">Home</a>
+            <a href="atividades.html">Atividades</a>
+            <a href="ementa.html">Ementa</a>
+            <a href="inscricao.html">Inscrição</a>
+            <a href="contactos.html">Contactos</a>
+        </div>
+    </header>
 
-    <!-- Lista de docentes -->
-    <div id="docentes-list">
-        <h3>Conheça os nossos docentes:</h3>
-        <ul>
-            <li><strong>Maria Silva</strong> - Professora de Matemática</li>
-            <li><strong>João Pereira</strong> - Professor de Ciências</li>
-            <li><strong>Ana Costa</strong> - Professora de História</li>
-            <li><strong>Pedro Santos</strong> - Professor de Educação Física</li>
-        </ul>
+    <h1 id="main-title">Equipa</h1>
+
+
+    <div id="docentes">
+        <div id="docente1">
+            <img class="docente1" src="../../img/staff/marcia.jpg" alt="">
+            <h3>Márcia Vicente</h3>
+            <p>
+                Márcia Vicente possui formação sólida em Gestão e, como Diretora Técnica, garante o bom funcionamento da
+                instituição, promovendo um ambiente seguro, harmonioso e centrado nas necessidades das crianças e das
+                suas
+                famílias.
+            </p>
+            <p>
+                É responsável pela coordenação técnica e administrativa, assegurando o cumprimento dos requisitos legais
+                e pedagógicos, e colaborando de forma próxima com a equipa educativa, famílias e entidades parceiras.
+            </p>
+        </div>
+        <div id="docente2">
+            <img class="docente2" src="../../img/staff/bruna.jpg" alt="">
+            <h3>Bruna Vicente</h3>
+            <p>
+                Bruna Vicente é uma educadora apaixonada, com uma presença calorosa e inspiradora que marca
+                positivamente todos os que com ela trabalham e aprendem. Com formação especializada em Educação de
+                Infância, A Bruna soma mais de 15 anos de experiência dedicados à infância e ao desenvolvimento integral
+                da criança.
+            </p>
+            <p>
+                Enquanto Diretora Pedagógica, coordena a prática educativa com sensibilidade, visão e rigor, promovendo
+                um ambiente onde cada criança é valorizada como única e encorajada a crescer com alegria, autonomia e
+                confiança. Acredita no poder da educação para transformar e investe diariamente na construção de
+                relações positivas entre equipa, crianças e famílias assim como na sua formação.
+            </p>
+        </div>
+        <div id="docente3">
+            <img class="docente3" src="../../img/staff/filipa.jpg" alt="">
+            <h3>Filipa Macedo</h3>
+            <p>
+                A Filipa Macedo integra a equipa do Estrelinha Amarela desde os primeiros meses de 2019 e, desde então,
+                tem sido uma presença constante de carinho, dedicação e responsabilidade. Como auxiliar de educação,
+                acompanha o dia a dia das crianças com atenção, afeto e uma enorme sensibilidade às suas necessidades
+                individuais.
+            </p>
+            <p>
+                Com um espírito disponível e colaborativo, a Filipa apoia as rotinas diárias com alegria e empenho,
+                contribuindo para um ambiente seguro, sereno e cheio de ternura. A sua relação próxima com as crianças
+                reflete o cuidado e o respeito que coloca em tudo o que faz — desde os momentos de higiene e
+                alimentação, até às brincadeiras, passeios e partilhas diárias.
+            </p>
+            <p>
+                A Filipa é também uma colega sempre pronta a ajudar, com um sorriso fácil e um coração generoso,
+                tornando-se uma figura de confiança para famílias, equipa e crianças.
+            </p>
+        </div>
+
     </div>
+    <br>
+    <br>
 
     <script src="../../js/scripts.js"></script>
     <img id="mascote" src="../../img/mascote.png" alt="Mascote" class="mascote" style="display:none;">

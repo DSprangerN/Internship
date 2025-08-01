@@ -11,42 +11,36 @@
 
 <body>
     <header>
-
-        <div class="menu-buttons">
-            <button type="button" id="btn-menu" class="btn-menu" onclick="openNav()">Menu</button>
+        <div class="header-bar">
+            <div class="menu-buttons">
+                <button type="button" id="btn-menu" class="btn-menu" onclick="openNav()"></button>
+            </div>
+            <div id="lang">
+                <button type="button" id="btn-pt" class="btn-pt"
+                    onclick="window.location.href='../PT/contactos.html'"></button>
+                <button type="button" id="btn-eng" class="btn-eng"
+                    onclick="window.location.href='../EN/contacts.html'"></button>
+            </div>
         </div>
-
         <div id="myTopnav" class="topnav">
             <span class="closebtn" onclick="closeNav()">&times;</span>
-            <a href="../../indexPT.html">Home</a>
-            <a href="missao.html">Missão</a>
+            <a href="../../index.html">Home</a>
             <a href="atividades.html">Actividades</a>
+            <a href="ementa.html">Ementa</a>
             <a href="inscricao.html">Inscrição</a>
-            <a href="docentes.html">Docentes</a>
+            <a href="docentes.html">Equipa</a>
         </div>
 
-        <div id="lang">
-            <button type="button" id="btn-pt" class="btn-pt"
-                onclick="window.location.href='../PT/contactos.html'">PT</button>
-            <button type="button" id="btn-eng" class="btn-eng"
-                onclick="window.location.href='../EN/contacts.html'">EN</button>
-        </div>
-        <img src="../../img/Logo_Estrelinha-Amarela.png" alt="Logo Estrelinha Amarela" height="200px" width="200px"
-            class="img-logo">
-        <br>
     </header>
 
-    <!-- Título principal -->
-    <h2>Contactos</h2>
+    <h1>Contactos</h1>
 
-    <!-- Informações de contacto -->
     <div id="contactos">
         <p><strong>Endereço:</strong> R. José Augusto Gouveia Lt.1 R/C Dto,2690-570 Santa Iria de Azoia</p>
         <p><strong>Telefone:</strong> +351 932 508 099</p>
         <p><strong>Email:</strong> estrelinhaamarela2018@gmail.com</p>
     </div>
 
-    <!-- Mapa interativo-->
     <div class="mapa" style="width: 100%;max-width: 1000px;margin: auto;">
         <h2>Onde nos encontrar</h2>
         <iframe width="100%" height="550" style="border: 0;" allowfullscreen frameborder="0"
@@ -55,7 +49,7 @@
         <br>
         <a href="https://www.google.com/maps/dir/?api=1&destination=R.+Jos%C3%A9+Augusto+Gouveia+Lt.1+R%2FC+Dto%2C+2690-570+Santa+Iria+de+Azoia"
             target="_blank" class="btn-direcoes"
-            style="display:inline-block;margin-top:10px;padding:8px 16px;background:#003366;color:#fff;border-radius:4px;text-decoration:none;"
+            style="display:inline-block;margin-top:10px;padding:8px 16px;background:#4B5F2A;color:#fff;border-radius:4px;text-decoration:none;"
             aria-label="Obter direções para a escola">
             Obter Direções
         </a>
@@ -63,14 +57,14 @@
 
     <br>
 
-    <!-- Comentários -->
-    <div class="reviews" style="margin: auto; width: 100%; max-width: 800px;">
-        <h2>Deixa-nos o teu comentário ou experiência</h2>
+    <div class="reviews">
+        <h2>Deixa-nos a tua experiência</h2>
         <label for="name">Nome:</label>
-        <input type="text" id="name" placeholder="Insira o seu nome">
+        <input type="text" id="name" placeholder="Insira o seu nome" style="width: 200px;">
         <br>
         <p><label for="msg">Comentário:</label></p>
-        <textarea name="review" id="msg" placeholder="Escreva o seu comentário"></textarea>
+        <textarea name="review" id="msg" placeholder="Escreva o seu comentário"
+            style="width: 400px; height: 200px;"></textarea>
         <p>
             <small>Os dados fornecidos serão tratados conforme a nossa <a href="privacidade.html">Política de
                     Privacidade</a>.</small>
@@ -83,9 +77,12 @@
         <ul id="reviews"></ul>
         <div id="paginacao" style="text-align:center; margin-top:10px"></div>
         <p>
-            Veja mais reviews
-            <a
-                href="https://www.google.com/search?client=firefox-b-d&sca_esv=3f2684b5ae9554a2&sxsrf=AE3TifPrIYhBM82Co6XnWI1qQRwovbJ3bw:1748461938261&si=AMgyJEvkVjFQtirYNBhM3ZJIRTaSJ6PxY6y1_6WZHGInbzDnMUZ-hlDeXSjCTOVDJ82Fs56YDM4CAJcWoRpPwpZomSmVCn3oKwjrsgkX0ue6OAQXCuNjFb7KeqZSlcicK4GZi4m-Q4xC-PRWxDFmmcXiQmfNcuXO7kumjPIuaIfDU8IS7IVKrrw%3D&q=Estrelinha+Amarela+-+Jardim+de+Inf%C3%A2ncia+Reviews&sa=X&ved=2ahUKEwiG2O6l-MaNAxVVYKQEHQT7DqYQ0bkNegQINBAE&biw=1920&bih=919&dpr=1&zx=1748461963179&no_sw_cr=1">aqui.</a>
+            Veja
+            <a href="https://www.google.com/search?client=firefox-b-d&sca_esv=3f2684b5ae9554a2&sxsrf=AE3TifPrIYhBM82Co6XnWI1qQRwovbJ3bw:1748461938261&si=
+                AMgyJEvkVjFQtirYNBhM3ZJIRTaSJ6PxY6y1_6WZHGInbzDnMUZ-hlDeXSjCTOVDJ82Fs56YDM4CAJcWoRpPwpZomSmVCn3oKwjrsgkX0ue6OAQXCuNjFb7KeqZSlcicK4GZi4m-Q4xC-
+                PRWxDFmmcXiQmfNcuXO7kumjPIuaIfDU8IS7IVKrrw%3D&q=Estrelinha+Amarela+-+Jardim+de+Inf%C3%A2ncia+Reviews&sa=X&ved=2ahUKEwiG2O6l
+                -MaNAxVVYKQEHQT7DqYQ0bkNegQINBAE&biw=1920&bih=919&dpr=1&zx=1748461963179&no_sw_cr=1">aqui </a>
+            o que dizem sobre nós.
         </p>
     </div>
     <br>
@@ -108,7 +105,8 @@
 
             paginatedReviews.forEach(review => {
                 const li = document.createElement("li");
-                li.innerHTML = `<strong>${review.nome}</strong> <span style="color: #888; font-size: 0.9em;">(${new Date(review.created_at).toLocaleString()})</span><br>${review.review}`;
+                li.innerHTML = `<strong>${review.nome}
+                    </strong> <span style="color: #888; font-size: 0.9em;">(${new Date(review.created_at).toLocaleString()})</span><br>${review.review}`;
                 reviewsList.appendChild(li);
             });
 

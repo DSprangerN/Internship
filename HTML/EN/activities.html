@@ -17,59 +17,71 @@
         #extracurriculares,
         #familia,
         .gallery-container {
-            border: 1px solid #5a9bd3;
             border-radius: 50px 50px 50px 50px;
             margin: auto;
             padding: 20px;
-            width: 70%;
+            width: 90%;
+        }
+
+        .gallery-container>div {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        /* Para mobile: duas colunas */
+        @media (max-width: 768px) {
+            .gallery-container>div {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .gallery-container>div>div {
+                flex: 0 0 48%;
+                max-width: 48%;
+                box-sizing: border-box;
+            }
         }
     </style>
 </head>
 
-<header>
-    <!-- Botão para abrir o menu -->
-    <div class="menu-buttons">
-        <button type="button" class="btn-menu" onclick="openNav()">Menu</button>
-    </div>
-
-    <div id="myTopnav" class="topnav">
-        <span class="closebtn" onclick="closeNav()">&times;</span>
-        <a href="../../indexPT.html">Home</a>
-        <a href="mission.html">Mission</a>
-        <a href="aplication.html">Aplication</a>
-        <a href="staff.html">Staff</a>
-        <a href="contacts.html">Contacts</a>
-    </div>
-
-    <br>
-
-    <div id="lang">
-        <button type="button" id="btn-pt" class="btn-pt"
-            onclick="window.location.href='../PT/atividades.html'">PT</button>
-        <button type="button" id="btn-eng" class="btn-eng"
-            onclick="window.location.href='../EN/activities.html'">EN</button>
-    </div>
-    <img src="../../img/Logo_Estrelinha-Amarela.png" alt="Logo Estrelinha Amarela" height="200px" width="200px"
-        class="img-logo">
-    <br>
-</header>
 
 <body>
+    <header>
+        <div class="header-bar">
+            <div class="menu-buttons">
+                <button type="button" id="btn-menu" class="btn-menu" onclick="openNav()"></button>
+            </div>
+            <div id="lang">
+                <button type="button" id="btn-pt" class="btn-pt"
+                    onclick="window.location.href='../PT/atividades.html'"></button>
+                <button type="button" id="btn-eng" class="btn-eng"
+                    onclick="window.location.href='../EN/activities.html'"></button>
+            </div>
+        </div>
+        <div id="myTopnav" class="topnav">
+            <span class="closebtn" onclick="closeNav()">&times;</span>
+            <a href="../../indexEN.html">Home</a>
+            <a href="menu.html">Menu</a>
+            <a href="registration.html">Registration</a>
+            <a href="staff.html">Staff</a>
+            <a href="contacts.html">Contacts</a>
+        </div>
+    </header>
+
     <br>
     <div id="atividades">
         <p>
-            AT <strong>A Estrelinha Amarela Kindergarten</strong>, we prioritize the holistic development of each child,
+            AT <strong> Estrelinha Amarela Kindergarten</strong> we prioritize the holistic development of each child,
             offering a
             diverse range of curricular and extracurricular activities designed to enrich their educational journey
             through playful, creative, and stimulating experiences.
         </p>
     </div>
-
-    <br>
-    <br>
-
     <div id="curriculares">
-        <h2>Curricular Activities</h2>
+        <h1>Curricular Activities</h1>
         <p>
             Included in the monthly fee, our carefully selected curricular activities support the physical, emotional,
             cognitive, and social development of children. These activities take place once a week, lasting 45 minutes
@@ -85,27 +97,17 @@
                 creativity and an appreciation for music.</li>
         </ul>
         </p>
-        <hr>
-        <br>
-        <div class="gallery-container">
-
-            <img id="galleryImg" src="../../img/atividades/atividades1.jpg"
-                style="width: 100%;vertical-align: middle;margin-top: 15px;">
-            <button id="prevImg" class="btn btn-primary" style="margin-right: 10px;margin-top: 5px;">&#8592;
-                Prev</button>
-            <button id="nextImg" class="btn btn-primary" style="margin-left: 10px;margin-top: 5px;">Next
-                &#8594;</button>
-        </div>
     </div>
-    <br>
     <hr style="width: 70%;">
     <br>
     <div id="extracurriculares">
-        <h2>Extracurricular Activities</h2>
+        <h1>Extracurricular Activities</h1>
         <br>
         <p>
-            In addition, we offer optional extracurricular activities tailored to the interests and motivations of the
-            children. This selection is reviewed annually, taking into account the preferences expressed by our little
+            In addition, we offer optional extracurricular activities tailored to the interests and motivations of
+            the
+            children. This selection is reviewed annually, taking into account the preferences expressed by our
+            little
             ones and their families.
             We believe that through these diverse experiences, we contribute to richer, more meaningful, and joyful
             learning.
@@ -116,26 +118,44 @@
 
         <ul>
             <li><strong>Dance</strong> - Provides children with a fun and creative way to express themselves through
-                movement. To the sound of various musical styles, children develop motor coordination, rhythmic sense,
+                movement. To the sound of various musical styles, children develop motor coordination, rhythmic
+                sense,
                 body awareness, and self-confidence, while also promoting teamwork, concentration, and discipline.
                 During the classes, children explore simple choreographies, movement games, and body expression
                 exercises.
             </li>
+            <br>
+            <li><strong>Yoga</strong> - Offers children moments of tranquility and connection with their bodies and
+                breath. Through simple and playful postures inspired by animals and elements of nature, children
+                develop
+                flexibility, balance, strength, and body awareness. Yoga classes also promote concentration,
+                self-esteem, self-control, and emotional well-being in a calm and welcoming environment, where each
+                child learns at their own pace, respecting themselves and others.
+            </li>
         </ul>
-        <hr>
         <br>
     </div>
     <br>
     <hr style="width: 70%;">
     <br>
+    <div class="gallery-container">
+
+        <img id="galleryImg" src="../../img/atividades/atividades1.jpg">
+        <button id="prevImg" class="btn btn-primary" style="margin-right: 10px;margin-top: 5px;">&#8592;
+            Prev</button>
+        <button id="nextImg" class="btn btn-primary" style="margin-left: 10px;margin-top: 5px;">Next
+            &#8594;</button>
+    </div>
+    <br>
+    <hr style="width: 70%;">
+    <br>
     <div id="familia">
-        <h2>Family Activities</h2>
+        <h1>Family Activities</h1>
         <p>
             At <strong>A Estrelinha Amarela Kindergarten</strong>, we believe that the best moments are lived as a
             family.
             That’s why we promote activities that can be shared at home, strengthening emotional bonds and providing
             enriching experiences for everyone.
-            We want each family to take a little of our joy and creativity into their home!
         </p>
         <div class="gallery-container" id="gallery-familia">
             <button id="download-button" class="btn btn-primary" disabled>Download</button>
@@ -144,7 +164,7 @@
     <br>
     <br>
 
-    <script src="../../js/scriptEN.js"></script>
+    <script src="../../js/scripts.js"></script>
     <img id="mascote" src="../../img/mascote.png" alt="Mascote" class="mascote" style="display:none;">
     <div id="mascote-message" class="mascote-message" style="display:none;"></div>
 
@@ -156,7 +176,10 @@
             "../../img/atividades/english.png",
             "../../img/atividades/ingles.png",
             "../../img/atividades/music.jpg",
-            "../../img/atividades/music.png"
+            "../../img/atividades/music.png",
+            "../../img/atividades/destreza.jpg",
+            "../../img/atividades/destreza1.jpg",
+            "../../img/atividades/yoga.png"
         ];
         let current = 0;
 

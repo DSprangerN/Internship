@@ -6,59 +6,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy</title>
     <link rel="icon" type="image/x-icon" href="../../img/favicon.ico">
+    <link rel="stylesheet" href="../../CSS/style.css">
     <style>
-        body {
-            font-family: "Lato", sans-serif;
-            background-color: #f0f8ff;
-            overflow-x: hidden;
-        }
-
-        header {
-            margin: auto;
-            padding: 20px 0;
-        }
-
-        img {
-            display: block;
-            flex: auto;
-            margin: auto;
-        }
-
         h1 {
             margin: auto;
-            text-align: center;
-            font-size: 36px;
-            color: #003366;
         }
 
-        h2 {
-            font-size: 16px;
+        h3,
+        p,
+        li {
+            padding-left: 10px;
+            position: relative;
+            text-align: left;
+            font-size: 20px;
+            font-family: "Lato", sans-serif;
             color: #003366;
-            margin: 20px 0;
         }
     </style>
 </head>
 
 <body>
     <header>
-        <img src="../../img/Logo_Estrelinha-Amarela.png" alt="Logo Estrelinha Amarela" height="200px" width="200px"
-            class="img-logo">
-        <br>
+        <div class="header-bar">
+            <div class="menu-buttons">
+                <button type="button" id="btn-menu" class="btn-menu" onclick="openNav()"></button>
+            </div>
+            <div id="lang">
+                <button type="button" id="btn-pt" class="btn-pt"
+                    onclick="window.location.href='../PT/privacidade.html'"></button>
+                <button type="button" id="btn-eng" class="btn-eng"
+                    onclick="window.location.href='../EN/privacy.html'"></button>
+            </div>
+        </div>
+        <div id="myTopnav" class="topnav">
+            <span class="closebtn" onclick="closeNav()">&times;</span>
+            <a href="../../indexEN.html">Home</a>
+            <a href="activities.html">Activities</a>
+            <a href="menu.html">Menu</a>
+            <a href="registration.html">Registration</a>
+            <a href="staff.html">Staff</a>
+            <a href="contacts.html">Contacts</a>
+        </div>
     </header>
 
     <h1>Privacy Policy</h1>
     <p>
-    <h2>
         At <strong>Estrelinha Amarela Kindergarten</strong> is committed to protecting the privacy of its users, in
         accordance with the General Data Protection Regulation (GDPR).
-    </h2>
     </p>
+
     <h3>1. Which data do we collect?</h3>
+
     <p>
         We only collect the personal data necessary for school and administrative management, namely: First name, Last
         name, username, check-in and check-out times, and contact details provided in the registration forms.
     </p>
+
     <h3>2. For what purposes do we use the data?</h3>
+
     <p>
         The data is used exclusively for:
     <ul>

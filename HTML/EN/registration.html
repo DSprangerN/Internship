@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscrição</title>
+    <title>Registration</title>
     <link rel="stylesheet" href="../../CSS/style.css">
     <link rel="icon" type="image/x-icon" href="../../img/favicon.ico">
     <style>
@@ -37,42 +37,43 @@
         </div>
         <div id="myTopnav" class="topnav">
             <span class="closebtn" onclick="closeNav()">&times;</span>
-            <a href="../../index.html">Home</a>
-            <a href="atividades.html">Atividades</a>
-            <a href="ementa.html">Ementa</a>
-            <a href="docentes.html">Equipa</a>
-            <a href="contactos.html">Contactos</a>
+            <a href="../../indexEN.html">Home</a>
+            <a href="activities.html">Activities</a>
+            <a href="menu.html">Menu</a>
+            <a href="staff.html">Staff</a>
+            <a href="contacts.html">Contacts</a>
         </div>
     </header>
-    <h2 id="main-title">Inscrição</h2>
+
+    <h2 id="main-title">Registration</h2>
 
     <div id="inscricao">
-        <h3>Preencha o formulário para inscrever o seu educando:</h3>
-        <form action="../../php/inscricao.php" method="post">
-            <label for="encarregado">Nome Encarregado de Educação:</label>
-            <input type="text" id="encarregado" name="encarregado" placeholder="Insira o seu nome" required>
+        <h3>Fill the form to apply:</h3>
+        <form action="../../php/registration.php" method="post">
+            <label for="guardian">Parent/ Guardian Name:</label>
+            <input type="text" id="guardian" name="guardian" placeholder="Enter your name" required>
             <br><br>
-            <label for="educando">Nome do Educando:</label>
-            <input type="text" id="educando" name="educando" placeholder="Nome do educando" required>
+            <label for="child">Child's Name:</label>
+            <input type="text" id="child" name="child" placeholder="Enter the child's name" required>
             <br><br>
-            <label for="data">Data de Nascimento do Educando:</label>
-            <input type="date" id="data" name="data" placeholder="Insira a data de nascimento do seu educando" required>
+            <label for="dob">Child's Date of Birth:</label>
+            <input type="date" id="dob" name="dob" required>
             <br><br>
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" placeholder="Insira o seu email" required>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
             <br><br>
-            <label for="telefone">Telefone:</label>
-            <input type="tel" id="telefone" name="telefone" placeholder="Insira o seu telefone" required>
+            <label for="phone">Phone:</label>
+            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
             <br><br>
-            <label for="mensagem">Mensagem:</label>
-            <textarea id="mensagem" name="mensagem" placeholder="Escreva a sua mensagem" required></textarea>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" placeholder="Write a message" required></textarea>
             <br>
-            <button type="submit">Enviar</button>
+            <button type="submit">Submit</button>
             <br>
             <br>
             <br>
-            <small>Os dados fornecidos serão tratados apenas para efeitos de inscrição/ contacto, conforme a nossa <a
-                    href=privacidade.html>Política de Privacidade</a></small>
+            <small>The data provided will only be used for aplication/contact purposes according to our <a
+                    href=privacy.html>Privacy Policy</a></small>
             <br>
 
         </form>
