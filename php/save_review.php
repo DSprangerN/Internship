@@ -2,9 +2,9 @@
 // ligar a base de dados
 
 $host = 'localhost';
-$dbname = 'estrelinha_login';
-$username = 'root';
-$password = 'Prisonbreak10';
+$dbname = 'aestrel1_estrelinha_login';
+$username = 'aestrel1_root';
+$password = 'Familia20*';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);

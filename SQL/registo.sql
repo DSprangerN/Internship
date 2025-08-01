@@ -16,10 +16,9 @@
 
 
 -- A despejar estrutura da base de dados para estrelinha_login
-CREATE DATABASE IF NOT EXISTS `estrelinha_login` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `estrelinha_login`;
 
 -- A despejar estrutura para tabela estrelinha_login.registo_horas
+DROP TABLE IF EXISTS `registo_horas`;
 CREATE TABLE IF NOT EXISTS `registo_horas` (
   `id_registo` int NOT NULL AUTO_INCREMENT,
   `id_user` int NOT NULL,
@@ -32,9 +31,9 @@ CREATE TABLE IF NOT EXISTS `registo_horas` (
   PRIMARY KEY (`id_registo`),
   UNIQUE KEY `unique_user_date` (`id_user`,`Data`),
   CONSTRAINT `fk_id_user` FOREIGN KEY (`id_user`) REFERENCES `users_login` (`id_user`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- A despejar dados para tabela estrelinha_login.registo_horas: ~9 rows (aproximadamente)
+-- A despejar dados para tabela estrelinha_login.registo_horas: ~16 rows (aproximadamente)
 INSERT INTO `registo_horas` (`id_registo`, `id_user`, `Data`, `Hora_Entrada`, `Hora_Saida`, `created_at`, `updated_at`, `finalizado`) VALUES
 	(13, 1, '2025-05-04', '2025-06-01 23:00:00', '2025-06-02 17:00:00', '2025-05-07 22:48:58', '2025-05-07 23:12:03', 0),
 	(14, 1, '2025-04-27', '2025-06-02 09:00:00', '2025-06-02 17:00:00', '2025-05-07 22:49:20', '2025-05-07 22:49:20', 0),
@@ -44,7 +43,15 @@ INSERT INTO `registo_horas` (`id_registo`, `id_user`, `Data`, `Hora_Entrada`, `H
 	(22, 8, '2025-05-11', '2025-06-02 07:00:00', '2025-06-02 17:00:00', '2025-05-19 22:49:48', '2025-05-19 22:49:48', 0),
 	(23, 8, '2025-05-14', '2025-06-02 07:00:00', '2025-06-02 17:00:00', '2025-05-19 22:50:00', '2025-05-19 22:50:00', 0),
 	(24, 8, '2025-05-06', '2025-06-02 04:00:00', '2025-06-02 19:00:00', '2025-05-19 22:50:13', '2025-05-19 22:50:13', 0),
-	(25, 1, '2025-05-30', '2025-06-02 06:00:00', '2025-06-02 14:00:00', '2025-05-30 18:23:43', '2025-05-30 18:23:43', 0);
+	(25, 1, '2025-05-30', '2025-06-02 06:00:00', '2025-06-02 14:00:00', '2025-05-30 18:23:43', '2025-05-30 18:23:43', 0),
+	(26, 1, '2025-06-02', '2025-06-02 21:10:20', '2025-06-03 21:40:47', '2025-06-02 22:10:20', '2025-06-03 21:40:47', 0),
+	(27, 1, '2025-05-27', '2025-06-03 20:03:45', NULL, '2025-06-03 21:03:45', '2025-06-03 21:03:45', 0),
+	(28, 1, '2025-06-03', '2025-06-03 20:35:06', '2025-06-03 20:37:21', '2025-06-03 21:35:06', '2025-06-03 21:37:21', 0),
+	(29, 1, '2025-06-01', '2025-06-03 21:40:32', '2025-06-03 22:14:09', '2025-06-03 21:40:32', '2025-06-03 22:14:09', 0),
+	(30, 1, '2025-06-18', '2025-06-18 19:02:48', '2025-06-18 20:02:48', '2025-06-18 19:02:48', '2025-06-18 20:02:48', 0),
+	(31, 1, '2025-06-19', '2025-06-18 19:45:19', '2025-06-18 20:19:10', '2025-06-18 19:45:19', '2025-06-18 20:19:10', 0),
+	(32, 1, '2025-06-16', '2025-06-18 20:08:46', NULL, '2025-06-18 20:08:46', '2025-06-18 20:08:46', 0),
+	(33, 1, '2025-06-09', '2025-06-18 20:10:55', '2025-06-18 20:18:45', '2025-06-18 20:10:55', '2025-06-18 20:18:45', 0);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

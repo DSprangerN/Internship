@@ -273,8 +273,8 @@ if (isset($_POST['upload_ementa']) && isset($_FILES['ementa_img'])) {
 
             // Ficheiros a atualizar
             $ficheiros = [
-                '../HTML/PT/missao.html',
-                '../HTML/EN/mission.html'
+                '../HTML/PT/ementa.html',
+                '../HTML/EN/menu.html'
             ];
 
             foreach ($ficheiros as $ficheiro) {

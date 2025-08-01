@@ -3,67 +3,85 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Estrelinha Amarela</title>
     <link rel="stylesheet" href="CSS/style.css">
     <link rel="icon" type="image/x-icon" href="img/favicon.ico">
-    <style>
-        .gallery-container {
-            border: 1px solid #5a9bd3;
-            border-radius: 50px 50px 50px 50px;
-            margin: auto;
-            padding: 20px;
-            width: 60%;
-            text-align: center;
-        }
-    </style>
 </head>
 
 <body>
     <header>
-        <!-- Botão para abrir o menu -->
-        <div class="menu-buttons">
-            <button type="button" class="btn-menu" onclick="openNav()">Menu</button>
+        <div class="header-bar">
+            <div class="menu-buttons">
+                <button type="button" id="btn-menu" class="btn-menu" onclick="openNav()"></button>
+            </div>
+            <div id="lang">
+                <button type="button" id="btn-pt" class="btn-pt" onclick="window.location.href='index.html'"></button>
+                <button type="button" id="btn-eng" class="btn-eng"
+                    onclick="window.location.href='indexEN.html'"></button>
+            </div>
         </div>
-
-        <!-- Menu de navegação -->
         <div id="myTopnav" class="topnav">
             <span class="closebtn" onclick="closeNav()">&times;</span>
-            <a href="../Internship/HTML/EN/mission.html">Mission</a>
-            <a href="../Internship/HTML/EN/activities.html">Activities</a>
-            <a href="../Internship/HTML/EN/inscription.html">Inscription</a>
-            <a href="../Internship/HTML/EN/staff.html">Staff</a>
-            <a href="../Internship/HTML/EN/contacts.html">Contacts</a>
+            <a href="HTML/EN/activities.html">Activities</a>
+            <a href="HTML/EN/menu.html">Menu</a>
+            <a href="HTML/EN/registration.html">Registration</a>
+            <a href="HTML/EN/staff.html">Staff</a>
+            <a href="HTML/EN/contacts.html">Contacts</a>
         </div>
-        <br>
-        <!-- Botões de idioma -->
-        <div id="lang">
-            <button type="button" id="btn-pt" class="btn-pt" onclick="window.location.href='indexPT.html'">PT</button>
-            <button type="button" id="btn-eng" class="btn-eng" onclick="window.location.href='indexEN.html'">EN</button>
-        </div>
-        <img src="img/Logo_Estrelinha-Amarela.png" alt="Logo Estrelinha Amarela" height="200px" width="200px">
     </header>
 
-    <!-- Título principal -->
-    <h2 id="main-title">Video de 1min</h2>
+    <h1 style="font-size: 45px;">Welcome!</h1>
+    <br>
 
-    <!-- Vídeo da escola -->
     <div id="video_escola" class="video_escola">
-        <iframe src="https://www.youtube.com/embed/your-video-id" frameborder="0" allowfullscreen></iframe>
+        <video controls autoplay muted>
+            <source src="img/video.mp4" type="video/mp4">
     </div>
-
-    <!-- Script principal -->
-    <script src="js/scriptEN.js"></script>
-    <img id="mascote" src="img/mascote.png" alt="Mascote" class="mascote" style="display:none;">
-    <div id="mascote-message" class="mascote-message" style="display:none;"></div>
-
+    <br>
+    <hr style="width: 70%;">
+    <br>
+    <h1>What is our Mission?</h1>
+    <div id="missao">
+        <p>
+            At <strong>A Estrelinha Amarela Kindergarten</strong>, our mission is to continue family and social values
+            and provide harmonious development for children. In this sense, the safety, well-being and happiness of our
+            children are our absolute priority.
+            By respecting each child's individual pace, we aim to enhance their development in a natural and balanced
+            way.
+        </p>
+        <p>
+            Our guiding principles are simple and clear:
+        </p>
+        <ul>
+            <li>Stimulate the development of autonomy;</li>
+            <li>Promote an “open door” culture, where parents are welcome to participate in proposed activities;</li>
+            <li>Encourage experiences that support growth and learning;</li>
+            <li>Support children's self-recognition;</li>
+            <li>Promote positive and integrated relationship with others;</li>
+            <li>Contribute to emotional stability and security while respecting each children's individuality;</li>
+            <li>Encourage respect for the family, their cultural identities and the values of all cultures;</li>
+            <li>Ensure the acquisition of knowledge about nature, society and culture;</li>
+            <li>Promote physical development through activities that are appropriate for each age group;</li>
+            <li>Ensure that everyone is treated equally.</li>
+        </ul>
+    </div>
+    <hr style="width: 70%;">
+    <br>
     <div class="gallery-container">
-        <img id="galleryImg" src="img/galeria/img1.jpg"
-            style="max-width: 100%; max-height: 800px; object-fit: contain; vertical-align: middle; margin-top: 15px; padding: 5px;">
+        <img id="galleryImg" src="img/galeria/img1.jpg">
         <button id="prevImg" class="btn btn-primary" style="margin-right: 10px;margin-top: 5px;">&#8592;
             Prev</button>
         <button id="nextImg" class="btn btn-primary" style="margin-left: 10px;margin-top: 5px;">Next
             &#8594;</button>
     </div>
+    <br>
+    <br>
+
+    <script src="js/scripts.js"></script>
+    <img id="mascote" src="img/mascote.png" alt="Mascote" class="mascote" style="display:none;">
+    <div id="mascote-message" class="mascote-message" style="display:none;"></div>
+
 
     <script>
         const images = [

@@ -16,10 +16,9 @@
 
 
 -- A despejar estrutura da base de dados para estrelinha_login
-CREATE DATABASE IF NOT EXISTS `estrelinha_login` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `estrelinha_login`;
 
 -- A despejar estrutura para tabela estrelinha_login.horas_descontadas
+DROP TABLE IF EXISTS `horas_descontadas`;
 CREATE TABLE IF NOT EXISTS `horas_descontadas` (
   `id_descontos` int NOT NULL AUTO_INCREMENT,
   `id_user` int NOT NULL,
@@ -30,9 +29,12 @@ CREATE TABLE IF NOT EXISTS `horas_descontadas` (
   PRIMARY KEY (`id_descontos`),
   KEY `fk_id_user_hd` (`id_user`),
   CONSTRAINT `fk_id_user_hd` FOREIGN KEY (`id_user`) REFERENCES `users_login` (`id_user`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- A despejar dados para tabela estrelinha_login.horas_descontadas: ~0 rows (aproximadamente)
+-- A despejar dados para tabela estrelinha_login.horas_descontadas: ~2 rows (aproximadamente)
+INSERT INTO `horas_descontadas` (`id_descontos`, `id_user`, `Data`, `Horas`, `created_at`, `updated_at`) VALUES
+	(1, 1, '2025-05-19', '10:00:00', '2025-05-18 22:23:51', '2025-05-18 22:23:51'),
+	(2, 1, '2025-06-02', '05:30:00', '2025-05-30 18:13:11', '2025-05-30 18:13:11');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

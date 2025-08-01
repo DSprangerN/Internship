@@ -16,10 +16,9 @@
 
 
 -- A despejar estrutura da base de dados para estrelinha_login
-CREATE DATABASE IF NOT EXISTS `estrelinha_login` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `estrelinha_login`;
 
 -- A despejar estrutura para tabela estrelinha_login.users_login
+DROP TABLE IF EXISTS `users_login`;
 CREATE TABLE IF NOT EXISTS `users_login` (
   `id_user` int NOT NULL AUTO_INCREMENT,
   `Nome` varchar(50) NOT NULL,
@@ -28,11 +27,16 @@ CREATE TABLE IF NOT EXISTS `users_login` (
   `Password` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `Ativo` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id_user`),
   UNIQUE KEY `Username` (`Username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- A despejar dados para tabela estrelinha_login.users_login: ~0 rows (aproximadamente)
+-- A despejar dados para tabela estrelinha_login.users_login: ~3 rows (aproximadamente)
+INSERT INTO `users_login` (`id_user`, `Nome`, `Sobrenome`, `Username`, `Password`, `created_at`, `updated_at`, `Ativo`) VALUES
+	(1, 'David', 'Neves', 'dasNeves', '$2y$10$3zcycvP8cQb20D4JJKOyXuXB8sPV4yx29.XQwAIXXddTrHf4zIUqm', '2025-04-30 23:54:19', '2025-05-28 20:33:13', 1),
+	(2, 'Marcia', 'Vicente', 'mvicente', '$2y$10$wfHY3DZHIbxgz7Rw/xFBP.KVnkIrd1xVg1sdD/2G0yKr96iN8xXJW', '2025-05-13 20:01:12', '2025-05-28 20:33:32', 1),
+	(8, 'Luis', 'Santos', 'santosL', '$2y$10$nbhY/RK4muxXwJafo9D4LuGog57gJq1bPRXSfWfkayDMZA2D7ywQ6', '2025-05-19 22:12:39', '2025-05-28 20:33:26', 1);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

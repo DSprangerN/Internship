@@ -2,9 +2,9 @@
 
 // Variáveis de ligação à base de dados
 $servername = "localhost"; // Endereço do servidor da base de dados
-$user = "root";            // Nome de usuário
-$passwd = "Prisonbreak10"; // Senha para a conexão com a base de dados
-$bd = "estrelinha_login";         // Nome da base dados a que nos pretendemos conectar
+$user = "aestrel1_root";            // Nome de usuário
+$passwd = "Familia20*"; // Senha para a conexão com a base de dados
+$bd = "aestrel1_estrelinha_login";         // Nome da base dados a que nos pretendemos conectar
 
 // Estabelece a conexão com a base de dados usando as variáveis definidas acima
 $liga = mysqli_connect($servername, $user, $passwd, $bd);

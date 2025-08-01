@@ -16,8 +16,6 @@
 
 
 -- A despejar estrutura da base de dados para estrelinha_login
-CREATE DATABASE IF NOT EXISTS `estrelinha_login` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `estrelinha_login`;
 
 -- A despejar estrutura para tabela estrelinha_login.reviews
 CREATE TABLE IF NOT EXISTS `reviews` (
@@ -26,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `reviews` (
   `review` text NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_review`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- A despejar dados para tabela estrelinha_login.reviews: ~0 rows (aproximadamente)
 
