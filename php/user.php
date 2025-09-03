@@ -27,7 +27,7 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 
 // Verifica se o utilizador está na rede Wi-Fi permitida (IP Local)
-$allowed_public_ip = '217.129.151.234'; // Substituir pelo IP da escola
+$allowed_public_ip = '165.85.15.102'; // Substituir pelo IP da escola
 $userIP = $_SERVER['REMOTE_ADDR'];
 
 if (
