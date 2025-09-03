@@ -578,7 +578,7 @@ if (isset($_POST['upload_ementa']) && isset($_FILES['ementa_img'])) {
                     <input type="date" name="data_compensada_insert" id="data_compensada_insert" class="form-control" required>
                 </div>
                 <div class="col-auto d-flex flex-column">
-                    <label for="horas_compensadas_insert" class="form-label">Horas a Compensadas</label>
+                    <label for="horas_compensadas_insert" class="form-label">Horas a Compensar</label>
                     <input type="number" step="0.01" min="0" max="24" name="horas_compensadas_insert" id="horas_compensadas_insert" class="form-control" required>
                 </div>
                 <div class="col-auto">
