@@ -565,9 +565,12 @@ if (isset($_POST['upload_ementa']) && isset($_FILES['ementa_img'])) {
                 <div class="col-auto d-flex flex-column">
                     <label for="colaborador_compensado_insert" class="form-label">Colaborador</label>
                     <select name="colaborador_compensado_insert" id="colaborador_compensado_insert" class="form-select" required>
+                        <option value="">Selecione um colaborador</option>
                         <?php foreach ($colaboradores as $col): ?>
-                            <option value="<?= $col['id'] ?>" <?= (isset($colaboradores_gozo) && in_array($col['id'], (array)$colaboradores_gozo)) ? 'selected' : '' ?>>
-                            <?php endforeach; ?>
+                            <option value="<?= $col['id'] ?>">
+                                <?= htmlspecialchars($col['nome']) ?>
+                            </option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="col-auto d-flex flex-column">
